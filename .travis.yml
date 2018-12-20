@@ -4,6 +4,8 @@ node_js: "node"
 before_install:
   - npm install qxcompiler -g 
 
+script:
+  
 before_deploy:
   - qx compile --target=build -v
 
