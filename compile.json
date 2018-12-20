@@ -1,0 +1,23 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "source-output"
+    },
+    {
+      "type": "build",
+      "outputPath": "build-output"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+  "environment": { 
+      "qx.icontheme": "Tango"
+  },     
+  "applications": [
+    {
+      "class": "qxl.mobileshowcase.Application",
+      "name": "qxl.mobileshowcase"
+    }
+  ]
+}
