@@ -5,3 +5,7 @@ msgstr "Project-Id-Version: 1.0\nReport-Msgid-Bugs-To: you@your.org\nPOT-Creatio
 #: mobileshowcase/page/Maps.js:125 qxl/mobileshowcase/page/Maps.js:243
 msgid "OK"
 msgstr ""
+
+#: qx/ui/form/validation/Manager.js:37
+msgid "This field is required"
+msgstr ""

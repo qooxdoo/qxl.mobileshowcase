@@ -68,9 +68,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       for(var i = 0; i < this.self(arguments).THEMES.length; i++) {
         var cssResource = this.self(arguments).THEMES[i].css;
         var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
-
         var req = new qx.bom.request.Xhr();
-
         req.open("GET", cssURI);
         req.send();
       }
@@ -123,13 +121,11 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
         var radioButton = new qx.ui.mobile.form.RadioButton();
         themeRadioGroup.add(radioButton);
         themeForm.add(radioButton, this.self(arguments).THEMES[i].name);
-
         radioButton.addListener("tap", this.__switchTheme, {
           "self": this,
           "index": i
         });
       }
-
       themeGroup.add(new qx.ui.mobile.form.renderer.Single(themeForm));
       this.getContent().add(themeGroup);
     },
@@ -261,14 +257,14 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       var root = qxWeb(".root");
       root.setStyle("color","white");
 
-      qxWeb("link[rel^='stylesheet']").remove();
+      qxWeb("link[rel^='stylesheet']")[0].remove();
 
       var newCssLink = document.createElement("link");
       newCssLink.setAttribute("rel", "stylesheet");
       newCssLink.setAttribute("type", "text/css");
       newCssLink.setAttribute("href", this.cssFile);
 
-      qxWeb("head").append(newCssLink);
+      qxWeb("head")[0].append(newCssLink);
 
       root.setStyle("color",null);
 
