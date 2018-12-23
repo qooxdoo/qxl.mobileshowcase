@@ -3,6 +3,7 @@ msgid ""
 msgstr "Project-Id-Version: 1.0\nReport-Msgid-Bugs-To: you@your.org\nPOT-Creation-Date: 2012-10-30 09:54+0100\nPO-Revision-Date: 2012-10-30 09:54+0100\nLast-Translator: you <you@your.org>\nLanguage-Team: Team <yourteam@your.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n"
 
 #: mobileshowcase/page/Maps.js:125 qxl/mobileshowcase/page/Maps.js:243
+#: qxl/mobileshowcase/page/Maps.js:244
 msgid "OK"
 msgstr ""
 
