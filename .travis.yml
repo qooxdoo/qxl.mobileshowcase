@@ -5,7 +5,8 @@ before_install:
   - npm install qxcompiler -g 
 
 script:
-  - qx compile --target=build -v
+  - qx compile --target=build --verbose
+  - qx compile --target=build --verbose
   
 
 deploy:

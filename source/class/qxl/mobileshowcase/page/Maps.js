@@ -29,12 +29,13 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
   {
     this.base(arguments, false);
     this.setTitle("Maps");
-    qx.bom.Stylesheet.includeFile('https://cdnjs.cloudflare.com/ajax/libs/ol3/3.16.0/ol.css');
+    
+    qx.bom.Stylesheet.includeFile('https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css');
     this._geolocationEnabled = qx.core.Environment.get("html.geolocation");
   },
   members :
   {
-    _mapUri : "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.16.0/ol-debug.js",
+    _mapUri : "https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js",
     _map : null,
     _marker : null,
     _geolocationEnabled : false,
