@@ -1,6 +1,10 @@
 # Qooxdoo mobile showcase
 A GUI mobile application tho show for qooxdoo demos
 
+## Online version
+
+http://www.qooxdoo.org/qxl.mobileshowcase/ 
+
 ## Developing mobileshowcase
 Clone this repo and compile it:
 
