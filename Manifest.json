@@ -22,7 +22,6 @@
     ],
 
     "version" : "0.1.0",
-    "qooxdoo-range": "^6.0.0-alpha"
   },
   
   "provides" : 
@@ -40,5 +39,9 @@
         "css": [
           "qxl/mobileshowcase/css/custom.css"
         ]
-   }
+   },
+   "requires": {
+    "qooxdoo-sdk": "^6.0.0-alpha"
+  }
+   
 }
