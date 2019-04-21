@@ -1,4 +1,4 @@
-{
+z{
 	"targets": [
 		{
 			"type": "source",
@@ -19,7 +19,8 @@
 	"applications": [
 		{
 			"class": "qxl.mobileshowcase.Application",
-			"name": "qxl.mobileshowcase"
+			"name": "qxl.mobileshowcase",
+			"bootPath": "source/boot"
 		}
 	]
 }
