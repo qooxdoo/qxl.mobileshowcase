@@ -1,6 +1,7 @@
 # .gitignore template for skeleton-based apps built with qxcompiler
 /compiled/
 /*-output/
+/compiled/
 /db.json
 /resource-db.json
 /qooxdoo/
