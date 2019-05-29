@@ -2,11 +2,10 @@ language: node_js
 node_js: "node"
 
 before_script:
-  - npm install @qooxdoo/compiler
+  - npm install @qooxdoo/compiler -g
 
 script:
-  - node_modules/qxcompiler/qx compile --target=build -v
-  - node_modules/qxcompiler/qx compile --target=build -v
+  - qx compile --target=build -v
   
 
 deploy:
