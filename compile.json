@@ -21,7 +21,8 @@
 		{
 			"class": "qxl.mobileshowcase.Application",
 			"name": "qxl.mobileshowcase",
-			"bootPath": "source/boot"
+			"bootPath": "source/boot",
+         	"theme": ""
 		}
 	]
 }
