@@ -7,9 +7,4 @@
 /qooxdoo/
 /contrib/
 node_modules/
-/source/resource/qxl/mobileshowcase/css/custom.css
-/source/resource/qxl/mobileshowcase/css/custom.css.map
-/source/resource/qxl/mobileshowcase/css/flat.css
-/source/resource/qxl/mobileshowcase/css/flat.css.map
-/source/resource/qxl/mobileshowcase/css/indigo.css
-/source/resource/qxl/mobileshowcase/css/indigo.css.map
+/source/resource/qxl/mobileshowcase/css/
