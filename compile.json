@@ -20,8 +20,9 @@
 	"applications": [
 		{
 			"class": "qxl.mobileshowcase.Application",
-			"name": "qxl.mobileshowcase",
-			"bootPath": "source/boot",
+			"name": "mobileshowcase",
+            "title": "Qooxdoo Mobile showcase",
+ 			"bootPath": "source/boot",
          	"theme": ""
 		}
 	]
