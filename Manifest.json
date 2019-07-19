@@ -16,24 +16,29 @@
         "email": "Henner DOT Kollmann AT gmx DOT de"
       }
     ],
-    "version": "0.1.1"
+    "version": "1.0.0-beta.0"
   },
   "provides": {
     "namespace": "qxl.mobileshowcase",
     "encoding": "utf-8",
     "class": "source/class",
     "resource": "source/resource",
-    "translation": "source/translation"
+    "translation": "source/translation",
+    "application": {
+      "class": "qxl.mobileshowcase.Application",
+      "name": "mobileshowcase",
+      "bootPath": "source/boot",
+      "theme": ""
+    }
   },
   "externalResources": {
-        "script": [
-         ],
-        "css": [
-          "qxl/mobileshowcase/css/custom.css"
-        ]
-   },
-   "requires": {
+    "script": [],
+    "css": [
+      "qxl/mobileshowcase/css/custom.css"
+    ]
+  },
+  "requires": {
     "@qooxdoo/compiler": "^1.0.0-beta",
-    "@qooxdoo/framework": "^6.0.0-alpha"
+    "@qooxdoo/framework": "^6.0.0-beta"
   }
 }
