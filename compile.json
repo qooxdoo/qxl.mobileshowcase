@@ -25,5 +25,8 @@
  			"bootPath": "source/boot",
          	"theme": ""
 		}
-	]
+	],
+	"sass": {
+	   "compiler": "legacy"
+	}
 }
