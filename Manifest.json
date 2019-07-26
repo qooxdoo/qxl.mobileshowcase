@@ -34,7 +34,7 @@
   "externalResources": {
     "script": [],
     "css": [
-      "qxl/mobileshowcase/scss/custom.scss"
+      "qxl/mobileshowcase/css/custom.css"
     ]
   },
   "requires": {
