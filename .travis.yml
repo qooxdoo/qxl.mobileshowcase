@@ -6,8 +6,6 @@ before_script:
 
 script:
   - qx compile --target=build -v
-# needs to run twice for generating css files, see https://github.com/qooxdoo/qooxdoo-compiler/issues/47
-  - qx compile --target=build -v
   
 
 deploy:

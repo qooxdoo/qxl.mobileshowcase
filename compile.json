@@ -22,8 +22,7 @@
 			"class": "qxl.mobileshowcase.Application",
 			"name": "mobileshowcase",
             "title": "Qooxdoo Mobile showcase",
- 			"bootPath": "source/boot",
-         	"theme": ""
+ 			"bootPath": "source/boot"
 		}
 	],
 	"sass": {
