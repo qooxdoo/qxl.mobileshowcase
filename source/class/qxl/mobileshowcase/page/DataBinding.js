@@ -23,8 +23,7 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("Data Binding");
 
@@ -76,8 +75,7 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       this.__form = this.__createSliderDataBindings();
@@ -119,12 +117,11 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
     /**
      * Reacts on tap of Stop time button.
      */
-    __onStopTimeButtonTap : function ()
-    {
+    __onStopTimeButtonTap : function () {
       var now = new Date();
       var date = now.toLocaleTimeString();
 
-      this.getListData().insertAt(0,date);
+      this.getListData().insertAt(0, date);
 
       this.__list.setVisibility("visible");
     },
@@ -133,8 +130,7 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
     /**
       * Called on interval event of timer.
       */
-    __onInterval : function()
-    {
+    __onInterval : function() {
       var old = parseInt(this.__dataLabel.getValue(), 10);
       if (this.__increaseMode) {
         if (old < 500) {
@@ -142,13 +138,11 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
         } else {
           this.__timer.stop();
         }
-      } else {
-        if (old > 0) {
+      } else if (old > 0) {
           this.__dataLabel.setValue(old - 1);
         } else {
           this.__timer.stop();
         }
-      }
     },
 
 
@@ -163,8 +157,7 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
     /**
      * Called on button increase.
      */
-    __onIncrease : function()
-    {
+    __onIncrease : function() {
       this.__increaseMode = true;
       this.__timer.start();
     },
@@ -173,8 +166,7 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
     /**
      *  Called on button decrease.
      */
-    __onDecrease : function()
-    {
+    __onDecrease : function() {
       this.__increaseMode = false;
       this.__timer.start();
     },
@@ -183,13 +175,12 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
     /**
      * Creates the slider and slider value label and binds vice-versa.
      */
-    __createSliderDataBindings : function()
-    {
+    __createSliderDataBindings : function() {
       var form = new qx.ui.mobile.form.Form();
       this.__slider = new qx.ui.mobile.form.Slider();
       this.__slider.setDisplayValue("value");
       this.__slider.setMaximum(500);
-      form.add(this.__slider,"Move slider:");
+      form.add(this.__slider, "Move slider:");
 
       this.__dataLabel = new qx.ui.mobile.form.TextField();
       this.__dataLabel.setValue("0");
@@ -211,8 +202,7 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
       var self = this;
 
       var list = new qx.ui.mobile.list.List({
-      configureItem : function(item, data, row)
-        {
+      configureItem : function(item, data, row) {
           var stopCount = self.getListData().getLength()-row;
           item.setTitle("Stop #"+stopCount);
           item.setSubtitle(data);

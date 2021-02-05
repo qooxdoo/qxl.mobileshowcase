@@ -23,8 +23,7 @@ qx.Class.define("qxl.mobileshowcase.page.Animation",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("Page Transitions");
   },
@@ -59,13 +58,11 @@ qx.Class.define("qxl.mobileshowcase.page.Animation",
   members :
   {
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       var list = new qx.ui.mobile.list.List({
-        configureItem : function(item, data, row)
-        {
+        configureItem : function(item, data, row) {
           item.setTitle(data.title);
           item.setShowArrow(true);
         }

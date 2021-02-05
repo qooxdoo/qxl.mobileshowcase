@@ -26,9 +26,8 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
-    this.base(arguments,false);
+  construct : function() {
+    this.base(arguments, false);
     this.setTitle("Dialog Widgets");
   },
 
@@ -47,8 +46,7 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       this.__resultsLabel = new qx.ui.mobile.basic.Label("No events received so far.");
@@ -125,23 +123,23 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
         this.__menu.show();
       }, this);
 
-      var popupGroup = new qx.ui.mobile.form.Group([],false);
+      var popupGroup = new qx.ui.mobile.form.Group([], false);
       popupGroup.add(this._createGroupTitle("Popup"));
       popupGroup.setLayout(new qx.ui.mobile.layout.VBox());
-      popupGroup.add(showPopupButton,{flex:1});
-      popupGroup.add(showAnchorButton,{flex:1});
+      popupGroup.add(showPopupButton, {flex:1});
+      popupGroup.add(showAnchorButton, {flex:1});
 
-      var menuGroup = new qx.ui.mobile.form.Group([],false);
+      var menuGroup = new qx.ui.mobile.form.Group([], false);
       menuGroup.add(this._createGroupTitle("Menu"));
       menuGroup.setLayout(new qx.ui.mobile.layout.VBox());
-      menuGroup.add(showMenuButton,{flex:1});
-      menuGroup.add(showAnchorMenuButton,{flex:1});
+      menuGroup.add(showMenuButton, {flex:1});
+      menuGroup.add(showAnchorMenuButton, {flex:1});
 
-      var otherGroup = new qx.ui.mobile.form.Group([],false);
+      var otherGroup = new qx.ui.mobile.form.Group([], false);
       otherGroup.add(this._createGroupTitle("Other"));
       otherGroup.setLayout(new qx.ui.mobile.layout.VBox());
-      otherGroup.add(busyIndicatorButton,{flex:1});
-      otherGroup.add(showPickerButton,{flex:1});
+      otherGroup.add(busyIndicatorButton, {flex:1});
+      otherGroup.add(showPickerButton, {flex:1});
 
       var groupContainer = new qx.ui.mobile.container.Composite();
       groupContainer.addCssClass("dialog-group");
@@ -166,7 +164,7 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
       pickerDialog.setTitle("Picker");
 
       var picker = this.__picker = new qx.ui.mobile.control.Picker();
-      picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
+      picker.addListener("changeSelection", this.__onPickerChangeSelection, this);
 
       this.__pickerDaySlotData = this._createDayPickerSlot(0, new Date().getFullYear());
       picker.addSlot(this.__pickerDaySlotData);
@@ -234,9 +232,9 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 
     /**
      * Creates the anchor popup.
+     * @param anchor
      */
-    __createAnchorPopup : function(anchor)
-    {
+    __createAnchorPopup : function(anchor) {
       if (this.__anchorPopup) {
         return this.__anchorPopup;
       }
@@ -263,10 +261,11 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 
     /**
      * Reacts on "changeSelection" event on picker, and displays the values on resultsLabel.
+     * @param e
      */
     __onPickerChangeSelection : function(e) {
       if (e.getData().slot > 0) {
-        if(this._updatePickerTimer) {
+        if (this._updatePickerTimer) {
           clearTimeout(this._updatePickerTimer);
           this._updatePickerTimer = null;
         }
@@ -298,12 +297,12 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
       var oldDayData = this.__picker.getModel().getItem(0);
       var diff = slotData.length - oldDayData.length;
       if (diff < 0) {
-        for (var i = 0; i < -diff; i++) {
+        for (let i = 0; i < -diff; i++) {
           oldDayData.pop();
         }
       } else if (diff > 0) {
         var ref = oldDayData.length;
-        for (var i = 0; i < diff; i++) {
+        for (let i = 0; i < diff; i++) {
           oldDayData.push({
             title: "" + (ref + i + 1)
           });
@@ -315,9 +314,10 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 
 
     /**
-    * Creates a group title for the dialow showcase.
-    * @return {qx.ui.mobile.form.Label} the group title label.
-    */
+     * Creates a group title for the dialow showcase.
+     * @param value
+     * @return {qx.ui.mobile.form.Label} the group title label.
+     */
     _createGroupTitle : function(value) {
       var titleLabel = new qx.ui.mobile.basic.Label(value);
       titleLabel.addCssClass("dialog-group-title");
@@ -328,6 +328,7 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 
     /**
      * Reacts on "confirmSelection" event on picker, and displays the values on resultsLabel.
+     * @param e
      */
     __onPickerConfirmSelection : function(e) {
       this.__resultsLabel.setValue("");
@@ -341,6 +342,7 @@ qx.Class.define("qxl.mobileshowcase.page.Dialog",
 
     /**
      * Reacts on "changeSelection" event on Menu, and displays the values on resultsLabel.
+     * @param e
      */
     __onMenuChangeSelection : function(e) {
        this.__resultsLabel.setValue("Received <b>changeSelection</b> from Menu Dialog. [index: "+ e.getData().index+ "] [item: "+ e.getData().item+"]");

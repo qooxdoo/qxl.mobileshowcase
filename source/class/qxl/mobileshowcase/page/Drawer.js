@@ -23,8 +23,7 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments, false);
     this.setTitle("Drawer");
   },
@@ -32,7 +31,10 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
 
   members :
   {
-    /** Factory method for creation of drawers. */
+    /**
+     * Factory method for creation of drawers.
+     * @param orientation
+     */
     _createDrawer : function(orientation) {
       var drawer = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
       drawer.setOrientation(orientation);
@@ -42,7 +44,10 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
     },
 
 
-    /** Factory method for the a demo drawer's content. */
+    /**
+     * Factory method for the a demo drawer's content.
+     * @param target
+     */
     _createDrawerContent : function(target) {
       var closeDrawerButton = new qx.ui.mobile.form.Button("Close");
       closeDrawerButton.addListener("tap", function() {
@@ -54,10 +59,13 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
     },
 
 
-    /** Factory method for the a drawer menu. */
+    /**
+     * Factory method for the a drawer menu.
+     * @param drawers
+     */
     _createDrawerMenu : function(drawers) {
       var drawerGroup = new qx.ui.mobile.form.Group();
-      for(var i = 0; i < drawers.length; i++) {
+      for (var i = 0; i < drawers.length; i++) {
         var openDrawerButton = new qx.ui.mobile.form.Button("Open "+drawers[i].getOrientation() +" drawer");
         openDrawerButton.addListener("tap", drawers[i].show, drawers[i]);
         drawerGroup.add(openDrawerButton);
@@ -68,8 +76,7 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       // DRAWERS

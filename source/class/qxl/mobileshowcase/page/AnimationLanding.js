@@ -25,8 +25,7 @@ qx.Class.define("qxl.mobileshowcase.page.AnimationLanding",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments, true);
     this.setTitle("Page Transitions");
     this.setShowBackButtonOnTablet(true);
@@ -47,8 +46,7 @@ qx.Class.define("qxl.mobileshowcase.page.AnimationLanding",
   members :
   {
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
 
@@ -86,8 +84,7 @@ qx.Class.define("qxl.mobileshowcase.page.AnimationLanding",
 
 
     // overridden
-    _back : function()
-    {
+    _back : function() {
       qx.core.Init.getApplication().getRouting().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
     }
   }

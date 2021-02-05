@@ -25,8 +25,7 @@ qx.Class.define("qxl.mobileshowcase.page.List",
   extend : qxl.mobileshowcase.page.Abstract,
 
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("List");
   },
@@ -176,7 +175,7 @@ qx.Class.define("qxl.mobileshowcase.page.List",
     _loadMoreModelItems: function() {
       var initialModelLength = this._model.length;
 
-      if(this._isLoading || initialModelLength > 200) {
+      if (this._isLoading || initialModelLength > 200) {
         return;
       }
 

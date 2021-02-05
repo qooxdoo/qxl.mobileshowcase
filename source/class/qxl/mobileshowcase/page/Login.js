@@ -15,8 +15,7 @@ qx.Class.define("qxl.qxl.mobileshowcase.page.Login",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("Login");
   },

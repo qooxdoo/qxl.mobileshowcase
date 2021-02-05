@@ -24,8 +24,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments, false);
     this.setTitle("Events");
 
@@ -33,7 +32,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
 
     this.__pointers = {};
 
-    if(qx.core.Environment.get("browser.name")=="firefox") {
+    if (qx.core.Environment.get("browser.name")=="firefox") {
       this.__vendorPrefix = "moz";
     } else if (qx.core.Environment.get("engine.name") == "mshtml") {
       this.__vendorPrefix = "ms";
@@ -66,11 +65,10 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
-      var container =  this.__showcaseContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({
+      var container = this.__showcaseContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({
         alignX : "center",
         alignY : "middle"
       }));
@@ -116,10 +114,10 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
       this.__gestureTarget.setTranslateX(-5000);
 
       // If OS is Android 2 remove HTML5 badge logo, because Android is not able to scale and rotate on the same element.
-      var isAndroid2 = (qx.core.Environment.get("os.name") == "android")
-        && (parseInt(qx.core.Environment.get("os.version").charAt(0)) < 4);
+      var isAndroid2 = (qx.core.Environment.get("os.name") == "android") &&
+        (parseInt(qx.core.Environment.get("os.version").charAt(0)) < 4);
 
-      if(isAndroid2) {
+      if (isAndroid2) {
         this.__gestureTarget.exclude();
       }
 
@@ -144,7 +142,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
       var descriptionText = "<b>Testing Pointer Events:</b> Touch / Tap / Swipe the area<br />\n\
       <b>Testing Multi-Pointer Events:</b> Touch the area with multiple fingers<br />\n\
       ";
-      if(!isAndroid2) {
+      if (!isAndroid2) {
         descriptionText += "<b>Testing Pinch/Zoom Gesture:</b> Touch HTML5 logo with two fingers<br />";
       }
       descriptionText += "<b>Testing OrientationChange Event</b>: Rotate your device / change browser size";
@@ -157,7 +155,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
       this.getContent().add(containerGroup, {flex:1});
 
       // Center background gradient, when multiple pointers are available.
-      qx.bom.element.Style.set(this.__container.getContentElement(),"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
+      qx.bom.element.Style.set(this.__container.getContentElement(), "background", "-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
 
       // Start rendering
       qx.bom.AnimationFrame.request(this._renderLabel, this);
@@ -197,7 +195,6 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
     /**
      * Event handler.
      *
-     * @param evt {qx.event.type.Track} The track event.
      */
     __onTrackEnd : function() {
       if (qx.core.Environment.get("qx.mobile.nativescroll") === false) {
@@ -229,8 +226,8 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
       var scale = evt.getScale() * this.__initialScale;
       this.__currentScale = (Math.round(scale * 100) / 100);
 
-      this.__currentScale = Math.max(this.__currentScale,this.__minScale);
-      this.__currentScale = Math.min(this.__currentScale,this.__maxScale);
+      this.__currentScale = Math.max(this.__currentScale, this.__minScale);
+      this.__currentScale = Math.min(this.__currentScale, this.__maxScale);
 
       qx.bom.AnimationFrame.request(this._renderLogo, this);
     },
@@ -243,7 +240,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
      */
     _onGesture : function(evt) {
       var pointer = this.__pointers[evt.getPointerId()];
-      if(pointer) {
+      if (pointer) {
         this.__pointers[evt.getPointerId()].events.push(evt.getType());
       }
       qx.bom.AnimationFrame.request(this._renderLabel, this);
@@ -286,7 +283,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
     * @param x {Integer} pointer position x.
     * @param y {Integer} pointer position y.
     */
-    _setPointerCirclePosition : function(pointerId,x,y) {
+    _setPointerCirclePosition : function(pointerId, x, y) {
       // Disable pointer circles Windows Phone 8 as no pointer-events:none is available.
       if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
         return;
@@ -308,7 +305,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
     _getPointerPosition : function(evt) {
       var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "padding");
       var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "padding");
-      return [evt.getViewportLeft() - containerLeft,evt.getViewportTop() - containerTop];
+      return [evt.getViewportLeft() - containerLeft, evt.getViewportTop() - containerTop];
     },
 
 
@@ -317,15 +314,14 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
      *
      * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onPointer : function(evt)
-    {
+    _onPointer : function(evt) {
       var type = evt.getType();
       var pointerId = evt.getPointerId();
 
       if (type == "pointerdown") {
         for (var key in this.__pointers) {
           var pointerToDelete = this.__pointers[key];
-          if(pointerToDelete.remove) {
+          if (pointerToDelete.remove) {
             delete this.__pointers[key];
           }
         }
@@ -344,14 +340,14 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
         this._updatePointerPosition(evt);
       }
 
-      if(type == "pointermove") {
+      if (type == "pointermove") {
         this._updatePointerPosition(evt);
       }
 
 
-      if(this.__pointers[pointerId] && !this.__pointers[pointerId].remove) {
+      if (this.__pointers[pointerId] && !this.__pointers[pointerId].remove) {
         var pointerEvents = this.__pointers[pointerId].events;
-        if(pointerEvents.length > 0) {
+        if (pointerEvents.length > 0) {
           var lastEventType = pointerEvents[pointerEvents.length -1];
           if (lastEventType != type) {
             pointerEvents.push(type);
@@ -365,7 +361,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
         // Remove all circles out of visible area
         this._resetPointerPosition(pointerId);
 
-        if(evt.isPrimary()) {
+        if (evt.isPrimary()) {
           this.__initialRotation = this.__currentRotation;
           this.__initialScale = this.__currentScale;
         }
@@ -387,7 +383,7 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
       // Render HTML5 logo: rotation and scale.
       var gestureTargetElement = this.__gestureTarget.getContentElement();
 
-      var transitionValue = "translate(" + (this.__logoLeft) + "px" + "," + (this.__logoTop) + "px) ";
+      var transitionValue = "translate(" + (this.__logoLeft) + "px," + (this.__logoTop) + "px) ";
       transitionValue = transitionValue + " scale(" + (this.__currentScale) + ")";
       transitionValue = transitionValue + " rotate(" + (this.__currentRotation) + "deg)";
 
@@ -402,13 +398,13 @@ qx.Class.define("qxl.mobileshowcase.page.Event",
       var labelBuffer = "";
       for (var pointerId in this.__pointers) {
         var pointer = this.__pointers[pointerId];
-         labelBuffer = labelBuffer + "<div class='pointers'>";
+         labelBuffer += "<div class='pointers'>";
         labelBuffer = labelBuffer + "<span class='pointer'>" + pointerId + "</span>";
         for (var i = 0; i < pointer.events.length; i++) {
           labelBuffer = labelBuffer + " <span class='event'>" + pointer.events[i] + "</span>";
-        };
-        labelBuffer = labelBuffer + "</div>";
-      };
+        }
+        labelBuffer += "</div>";
+      }
       this.__label.setValue(labelBuffer);
     }
   }

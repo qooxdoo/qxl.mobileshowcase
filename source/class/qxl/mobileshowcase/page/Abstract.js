@@ -23,8 +23,7 @@ qx.Class.define("qxl.mobileshowcase.page.Abstract",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function(wrapContentByGroup)
-  {
+  construct : function(wrapContentByGroup) {
     this.base(arguments, wrapContentByGroup);
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
@@ -34,8 +33,7 @@ qx.Class.define("qxl.mobileshowcase.page.Abstract",
   members :
   {
      // overridden
-    _back : function()
-    {
+    _back : function() {
       qx.core.Init.getApplication().getRouting().back();
     }
   }

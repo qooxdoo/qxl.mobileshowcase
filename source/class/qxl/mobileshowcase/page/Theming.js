@@ -32,8 +32,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments, false);
     this.setTitle("Theming");
 
@@ -65,7 +64,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
      * Preloads all css files for preventing flickering on theme switches.
      */
     __preloadThemes : function() {
-      for(var i = 0; i < this.self(arguments).THEMES.length; i++) {
+      for (var i = 0; i < this.self(arguments).THEMES.length; i++) {
         var cssResource = this.self(arguments).THEMES[i].css;
         var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
         var req = new qx.bom.request.Xhr();
@@ -76,8 +75,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Select a theme"));
@@ -93,16 +91,17 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
     },
 
 
-    /** Check on possible scale changes. */
-    _onChangeScale : qx.module.util.Function.debounce(function(e)
-    {
+    /**
+     * Check on possible scale changes.
+     * @param e
+     */
+    _onChangeScale : qx.module.util.Function.debounce(function(e) {
       var root = qx.core.Init.getApplication().getRoot();
 
       var appScale = root.getAppScale();
       var fontScale = root.getFontScale();
 
-      if(appScale != this.__appScale || fontScale != this.__fontScale)
-      {
+      if (appScale != this.__appScale || fontScale != this.__fontScale) {
         this.__appScale = appScale;
         this.__fontScale = fontScale;
 
@@ -151,8 +150,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
    /**
     * Refreshes the label which displays the pixel ratio, scale factor etc.
     */
-    _updateDemoImageLabel : function()
-    {
+    _updateDemoImageLabel : function() {
       var pixelRatio = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
       var fontScale = qx.core.Init.getApplication().getRoot().getFontScale();
       var appScale = qx.core.Init.getApplication().getRoot().getAppScale();
@@ -169,8 +167,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
     * @param x {Number}
     * @return {String} the formatted number
     */
-    __format : function(x)
-    {
+    __format : function(x) {
       if (x === null) {
         return "(unknown)";
       }
@@ -184,8 +181,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
     /**
      * Creates the a control widget for the theme's scale factor.
      */
-    __createThemeScaleControl : function()
-    {
+    __createThemeScaleControl : function() {
       this.getContent().add(new qx.ui.mobile.form.Title("Adjust font scale"));
 
       var form = new qx.ui.mobile.form.Form();
@@ -203,7 +199,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       useScaleButton.addListener("tap", this._onApplyScaleButtonTap, this);
       form.addButton(useScaleButton);
 
-      var scaleGroup = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.renderer.Single(form)],false);
+      var scaleGroup = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.renderer.Single(form)], false);
       this.getContent().add(scaleGroup);
     },
 
@@ -255,7 +251,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       qx.bom.Element.removeListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedOut, this);
 
       var root = qxWeb(".root");
-      root.setStyle("color","white");
+      root.setStyle("color", "white");
 
       qxWeb("link[rel^='stylesheet']")[0].remove();
 
@@ -266,7 +262,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
 
       qxWeb("head")[0].append(newCssLink);
 
-      root.setStyle("color",null);
+      root.setStyle("color", null);
 
       setTimeout(function() {
         qx.bom.Element.addListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedIn, this);
@@ -289,7 +285,6 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
 
     /**
      * Switches the theme of the application to the target theme.
-     * @param src {qx.ui.mobile.core.Widget} Source widget of this event.
      */
     __switchTheme : function() {
       var cssResource = this.self.self(arguments).THEMES[this.index].css;
@@ -300,15 +295,14 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
 
     /**
      * Adds a new theme data object to the theme switcher.
-     * @param cssFile {String} The css file url.
+     * @param themeData
      */
     appendTheme : function(themeData) {
       this.self(arguments).THEMES.push(themeData);
     },
 
 
-    destruct : function()
-    {
+    destruct : function() {
      qx.event.Registration.removeListener(window, "resize", this._onChangeScale);
 
      qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._updateDemoImageLabel, this);

@@ -24,8 +24,7 @@ qx.Class.define("qxl.mobileshowcase.page.Tab",
   extend : qxl.mobileshowcase.page.Abstract,
 
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("Tabs");
   },
@@ -34,8 +33,7 @@ qx.Class.define("qxl.mobileshowcase.page.Tab",
   members :
   {
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       var tabBar = this.__createTabBar();
@@ -50,8 +48,7 @@ qx.Class.define("qxl.mobileshowcase.page.Tab",
      *
      * @return {qx.ui.mobile.tabbar.TabBar} created tab bar.
      */
-    __createTabBar : function()
-    {
+    __createTabBar : function() {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
 
       var view1 = this.__createView("<b>qx.Desktop</b><br/><br/>Create desktop oriented applications. Features a rich and extendable set of widgets. No HTML/CSS knowledge required.");
@@ -91,8 +88,7 @@ qx.Class.define("qxl.mobileshowcase.page.Tab",
      * @param text {String} The text of the label used in this view.
      * @return {qx.ui.mobile.basic.Label} the created view.
      */
-    __createView : function(text)
-    {
+    __createView : function(text) {
       var label = new qx.ui.mobile.basic.Label(text);
       this.getContent().add(label);
       return label;

@@ -26,9 +26,8 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
-    this.base(arguments,false);
+  construct : function() {
+    this.base(arguments, false);
     this.setTitle("Canvas");
     this.__ratio = qx.core.Environment.get("device.pixelRatio");
   },
@@ -45,8 +44,7 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       this.__lastPoint = {};
@@ -73,8 +71,8 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
       canvas.setWidth(this._to(this.__canvasSize));
       canvas.setHeight(this._to(this.__canvasSize));
-      qx.bom.element.Style.set(canvas.getContentElement(),"width", this.__canvasSize + "px");
-      qx.bom.element.Style.set(canvas.getContentElement(),"height", this.__canvasSize + "px");
+      qx.bom.element.Style.set(canvas.getContentElement(), "width", this.__canvasSize + "px");
+      qx.bom.element.Style.set(canvas.getContentElement(), "height", this.__canvasSize + "px");
 
       this.getContent().add(canvas);
 
@@ -89,9 +87,10 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
 
     /**
-    * Calculates the correct position in relation to the device pixel ratio.
-    * @return {Number} the correct position.
-    */
+     * Calculates the correct position in relation to the device pixel ratio.
+     * @param value
+     * @return {Number} the correct position.
+     */
     _to : function(value) {
       return value * this.__ratio;
     },
@@ -103,12 +102,12 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
     _drawExample : function() {
       // Comment in Text
       var ctx = this.__canvas.getContext2d();
-      ctx.fillStyle = 'gray';
-      ctx.font = 'bold '+this._to(16)+'px Helvetica';
-      ctx.fillText('Start drawing here ...', this._to(15), this._to(25));
+      ctx.fillStyle = "gray";
+      ctx.font = "bold "+this._to(16)+"px Helvetica";
+      ctx.fillText("Start drawing here ...", this._to(15), this._to(25));
 
       // Smiley
-      ctx.strokeStyle = '#3D72C9';
+      ctx.strokeStyle = "#3D72C9";
       ctx.beginPath();
       ctx.arc(475, 85, 50, 0, Math.PI * 2, true);
       ctx.moveTo(510, 85);
@@ -136,6 +135,7 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
     /**
      * Handles the <code>trackstart</code>  event on canvas.
+     * @param evt
      */
     _onTrackStart : function(evt) {
       this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
@@ -147,6 +147,7 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
     /**
      * Handles the <code>track</code>  event on canvas.
+     * @param evt
      */
     _onTrack : function(evt) {
       this.__draw(evt);
@@ -157,6 +158,7 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
     /**
      * Handles the <code>trackend</code> event on canvas.
+     * @param evt
      */
     _onTrackEnd : function(evt) {
       this.__lastPoint = {};
@@ -165,6 +167,7 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
     /**
      * Draws the line on canvas.
+     * @param evt
      */
     __draw: function(evt) {
         var ctx = this.__canvas.getContext2d();
@@ -177,14 +180,14 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
         if (lastPoint) {
           ctx.beginPath();
-          ctx.lineCap = 'round';
+          ctx.lineCap = "round";
           ctx.moveTo(this._to(lastPoint.x), this._to(lastPoint.y));
           ctx.lineTo(this._to(pointerLeft), this._to(pointerTop));
 
           var deltaX = Math.abs(lastPoint.x - pointerLeft);
           var deltaY = Math.abs(lastPoint.y - pointerTop);
 
-          var velocity = Math.sqrt(Math.pow(deltaX ,2) + Math.pow(deltaY ,2));
+          var velocity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
           opacity = (100 - velocity) / 100;
           opacity = Math.round(opacity * Math.pow(10, 2)) / Math.pow(10, 2);
@@ -198,8 +201,8 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
 
           // linear gradient from start to end of line
           var grad = ctx.createLinearGradient(lastPoint.x, lastPoint.y, pointerLeft, pointerTop);
-          grad.addColorStop(0, 'rgba(61,114,201,' + lastPoint.opacity + ')');
-          grad.addColorStop(1, 'rgba(61,114,201,' + opacity + ')');
+          grad.addColorStop(0, "rgba(61,114,201," + lastPoint.opacity + ")");
+          grad.addColorStop(1, "rgba(61,114,201," + opacity + ")");
           ctx.strokeStyle = grad;
 
           ctx.lineWidth = this._to(1.5);
@@ -216,8 +219,7 @@ qx.Class.define("qxl.mobileshowcase.page.Canvas",
     },
 
 
-    destruct : function()
-    {
+    destruct : function() {
       this._disposeObjects();
     }
 

@@ -29,8 +29,7 @@ qx.Class.define("qxl.mobileshowcase.page.Basic",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments, false);
     this.setTitle("Basic Widgets");
     this._widgets = [];
@@ -43,8 +42,7 @@ qx.Class.define("qxl.mobileshowcase.page.Basic",
     _widgets : null,
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       // BASIC WIDGET CHANGE MENU
@@ -111,7 +109,7 @@ qx.Class.define("qxl.mobileshowcase.page.Basic",
 
       this.getContent().add(new qx.ui.mobile.form.Title("ToggleButton"));
 
-      var toggleButtonGroup = new qx.ui.mobile.form.Group;
+      var toggleButtonGroup = new qx.ui.mobile.form.Group();
       toggleButtonGroup.add(exToggleButton);
       this.getContent().add(toggleButtonGroup);
 

@@ -23,8 +23,7 @@ qx.Class.define("qxl.mobileshowcase.page.Overview",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("Overview");
   },
@@ -40,13 +39,11 @@ qx.Class.define("qxl.mobileshowcase.page.Overview",
   members :
   {
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       var list = new qx.ui.mobile.list.List({
-        configureItem : function(item, data, row)
-        {
+        configureItem : function(item, data, row) {
           item.setTitle(data.title);
           item.setSubtitle(data.subtitle);
           item.setShowArrow(true);
@@ -77,7 +74,6 @@ qx.Class.define("qxl.mobileshowcase.page.Overview",
       }, this);
 
       this.getContent().add(list);
-
     }
   }
 });

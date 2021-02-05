@@ -31,13 +31,12 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
 
 
   statics : {
-    __toolbarButtonImages: ["qxl/mobileshowcase/icon/arrowleft.png","qxl/mobileshowcase/icon/camera.png"]
+    __toolbarButtonImages: ["qxl/mobileshowcase/icon/arrowleft.png", "qxl/mobileshowcase/icon/camera.png"]
   },
 
 
-  construct : function()
-  {
-    this.base(arguments,false);
+  construct : function() {
+    this.base(arguments, false);
     this.setTitle("Toolbar");
   },
 
@@ -66,8 +65,7 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
 
       var label = new qx.ui.mobile.form.Title("Search");
@@ -87,8 +85,8 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
       );
       this.__goBackBtn.setShow("icon");
 
-       this.__goBackBtn.addListener("tap", function(){
-        var popup = this.__createAreYouSurePopup( this.__goBackBtn);
+       this.__goBackBtn.addListener("tap", function() {
+        var popup = this.__createAreYouSurePopup(this.__goBackBtn);
         popup.show();
       }, this);
 
@@ -97,7 +95,7 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
       );
       this.__loadButton.setShow("icon");
 
-      this.__loadButton.addListener("tap", function(){
+      this.__loadButton.addListener("tap", function() {
         var popup = this.__createSearchPopup();
         popup.show();
         qx.lang.Function.delay(popup.hide, 3000, popup);
@@ -105,8 +103,8 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
 
 
       var deleteButton = new qx.ui.mobile.toolbar.Button("Delete");
-      deleteButton.addListener("tap", function(){
-        this.__deleteDialog = qx.ui.mobile.dialog.Manager.getInstance().warning('Deleting', 'Are you sure?', this.__processDelete, this, ["Yes", "No"]);
+      deleteButton.addListener("tap", function() {
+        this.__deleteDialog = qx.ui.mobile.dialog.Manager.getInstance().warning("Deleting", "Are you sure?", this.__processDelete, this, ["Yes", "No"]);
       }, this);
 
       toolbar.add(searchBtn);
@@ -116,9 +114,8 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
     },
 
 
-    __processDelete : function(index)
-    {
-      if(index==0) {
+    __processDelete : function(index) {
+      if (index==0) {
         this.__deleteDialog.destroy();
       } else {
         this.__deleteDialog.destroy();
@@ -128,10 +125,10 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
 
     /**
      * Creates the popup widget to show when backButton is tapped
+     * @param anchor
      */
-    __createAreYouSurePopup : function(anchor)
-    {
-      if(this.__areYouSurePopup) {
+    __createAreYouSurePopup : function(anchor) {
+      if (this.__areYouSurePopup) {
         return this.__areYouSurePopup;
       }
       var buttonsWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
@@ -142,11 +139,11 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
       buttonsWidget.add(okButton, {flex:1});
       buttonsWidget.add(cancelButton, {flex:1});
 
-      okButton.addListener("tap", function(){
+      okButton.addListener("tap", function() {
         this.__areYouSurePopup.hide();
       }, this);
 
-      cancelButton.addListener("tap", function(){
+      cancelButton.addListener("tap", function() {
         this.__areYouSurePopup.hide();
       }, this);
 
@@ -157,10 +154,10 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
 
     /**
      * Creates the popup widget to show when backButton is tapped
+     * @param attachedToWidget
      */
-    __createSearchPopup : function(attachedToWidget)
-    {
-      if(this.__searchPopup) {
+    __createSearchPopup : function(attachedToWidget) {
+      if (this.__searchPopup) {
         return this.__searchPopup;
       }
       var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("Data connection...");
@@ -172,9 +169,8 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
     /**
      * Creates the popup widget to show when backButton is tapped
      */
-    __createSearchDialog : function()
-    {
-      if(this.__searchDialog) {
+    __createSearchDialog : function() {
+      if (this.__searchDialog) {
         return this.__searchDialog;
       }
       var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
@@ -187,7 +183,7 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
       }.bind(this));
 
       var searchButton = new qx.ui.mobile.form.Button("Search");
-      searchButton.addListener("tap", function(){
+      searchButton.addListener("tap", function() {
         this.__searchDialog.hide();
       }, this);
 
@@ -197,7 +193,7 @@ qx.Class.define("qxl.mobileshowcase.page.Toolbar",
       this.__searchDialog = new qx.ui.mobile.dialog.Popup(popupWidget);
       this.__searchDialog.setHideOnBlockerTap(true);
       this.__searchDialog.setModal(true);
-      this.__searchDialog.setTitle('Search ...');
+      this.__searchDialog.setTitle("Search ...");
       return this.__searchDialog;
     },
 

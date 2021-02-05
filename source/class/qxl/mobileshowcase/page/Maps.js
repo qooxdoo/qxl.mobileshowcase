@@ -22,15 +22,15 @@
  * @ignore(ol.*)
  * @asset(qx/mobile/css/*)
  */
+/* global ol */
 qx.Class.define("qxl.mobileshowcase.page.Maps",
 {
   extend : qxl.mobileshowcase.page.Abstract,
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments, false);
     this.setTitle("Maps");
     
-    qx.bom.Stylesheet.includeFile('https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css');
+    qx.bom.Stylesheet.includeFile("https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css");
     this._geolocationEnabled = qx.core.Environment.get("html.geolocation");
   },
   members :
@@ -42,8 +42,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     _showMyPositionButton : null,
 
     // overridden
-    _initialize : function()
-    {
+    _initialize : function() {
       this.base(arguments);
       if (this._geolocationEnabled) {
         this._initGeoLocation();
@@ -68,14 +67,12 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     },
     
     // overridden
-    _start : function()
-    {
+    _start : function() {
         this._redrawMap();
     },
 
     // overridden
-    _createScrollContainer : function()
-    {
+    _createScrollContainer : function() {
       // MapContainer
       // Do not use any layout manager  - otherwise the map will not be
       // displayed with safari browsers.
@@ -86,8 +83,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     },
 
     // overridden
-    _createContent : function()
-    {
+    _createContent : function() {
       // Disable menu for Windows Phone 8.
       if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
         return null;
@@ -108,8 +104,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
 
       // Button is disabled when Geolocation is not available.
       this._showMyPositionButton.setEnabled(this._geolocationEnabled);
-      toggleNavigationButton.addListener("changeValue", function()
-      {
+      toggleNavigationButton.addListener("changeValue", function() {
         var newNavBarState = !this.isNavigationBarHidden();
         this.setNavigationBarHidden(newNavBarState);
         this.show();
@@ -126,12 +121,10 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     /**
      * Loads JavaScript library which is needed for the map.
      */
-    _loadMapLibrary : function()
-    {
+    _loadMapLibrary : function() {
       var req = new qx.bom.request.Script();
-      req.onload = function()
-      {
-        var osmlayer = new ol.layer.Tile( {
+      req.onload = function() {
+        var osmlayer = new ol.layer.Tile({
           source : new ol.source.OSM()
         });
         var view = new ol.View(
@@ -139,11 +132,11 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
           zoom : 10,
           minZoom : 2,
           maxZoom : 19
-        })
+        });
 
         this._map = new ol.Map(
         {
-          target : 'map',
+          target : "map",
           layers : [osmlayer],
           view : view
         });
@@ -170,8 +163,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
      * @param zoom {Integer} zoom level.
      * @param showMarker {Boolean} if a marker should be drawn at the defined position.
      */
-    _zoomToPosition : function(longitude, latitude, zoom, showMarker)
-    {
+    _zoomToPosition : function(longitude, latitude, zoom, showMarker) {
       if (!this._map) {
         return;
       }
@@ -189,25 +181,22 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
      * @param mapPosition {Map} the map position.
      * @param showMarker {Boolean} if a marker should be drawn at the defined position.
      */
-    _setMarkerOnMap : function(map, mapPosition, showMarker)
-    {
-      if (this._marker)
-      {
+    _setMarkerOnMap : function(map, mapPosition, showMarker) {
+      if (this._marker) {
         map.removeLayer(this._marker);
         this._marker = null;
       }
-      if (showMarker === true)
-      {
-        var point = new ol.Feature( {
+      if (showMarker === true) {
+        var point = new ol.Feature({
           geometry : new ol.geom.Point(mapPosition)
         });
-        point.setStyle(new ol.style.Style( {
-          image : new ol.style.Icon( {
-            src : 'http://www.openlayers.org/api/img/marker.png'
+        point.setStyle(new ol.style.Style({
+          image : new ol.style.Icon({
+            src : "http://www.openlayers.org/api/img/marker.png"
           })
         }));
-        this._marker = new ol.layer.Vector( {
-          source : new ol.source.Vector( {
+        this._marker = new ol.layer.Vector({
+          source : new ol.source.Vector({
             features : [point]
           })
         });
@@ -218,8 +207,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     /**
      * Prepares qooxdoo GeoLocation and installs needed listeners.
      */
-    _initGeoLocation : function()
-    {
+    _initGeoLocation : function() {
       var geo = qx.bom.GeoLocation.getInstance();
       geo.addListener("position", this._onGeolocationSuccess, this);
       geo.addListener("error", this._onGeolocationError, this);
@@ -227,9 +215,9 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
 
     /**
      * Callback function when Geolocation did work.
+     * @param position
      */
-    _onGeolocationSuccess : function(position)
-    {
+    _onGeolocationSuccess : function(position) {
       this._zoomToPosition(position.getLongitude(), position.getLatitude(), 15, true);
       this._redrawMap();
     },
@@ -237,8 +225,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     /**
      * Callback function when Geolocation returned an error.
      */
-    _onGeolocationError : function()
-    {
+    _onGeolocationError : function() {
       this._showMyPositionButton.setEnabled(false);
       var buttons = [];
       buttons.push(qx.locale.Manager.tr("OK"));
@@ -251,8 +238,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     /**
      * Retreives GeoPosition out of qx.bom.Geolocation and zooms to this point on map.
      */
-    _getGeoPosition : function()
-    {
+    _getGeoPosition : function() {
       var geo = qx.bom.GeoLocation.getInstance();
       geo.getCurrentPosition(false, 1000, 1000);
     },

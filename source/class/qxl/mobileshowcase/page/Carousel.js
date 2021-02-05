@@ -23,8 +23,7 @@ qx.Class.define("qxl.mobileshowcase.page.Carousel",
 {
   extend : qxl.mobileshowcase.page.Abstract,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
     this.setTitle("Carousel");
   },
@@ -58,7 +57,7 @@ qx.Class.define("qxl.mobileshowcase.page.Carousel",
       nextButton.addListener("tap", function() {
         setTimeout(function() {
           carousel.nextPage();
-        }.bind(this), 0);
+        }, 0);
       }, carousel);
 
       var previousButton = new qx.ui.mobile.form.Button("Previous Page");
@@ -66,10 +65,10 @@ qx.Class.define("qxl.mobileshowcase.page.Carousel",
       previousButton.addListener("tap", function() {
         setTimeout(function() {
           carousel.previousPage();
-        }.bind(this), 0);
+        }, 0);
       }, carousel);
 
-      var page3group = new qx.ui.mobile.form.Group([previousButton,nextButton],false);
+      var page3group = new qx.ui.mobile.form.Group([previousButton, nextButton], false);
       page3group.setLayout(new qx.ui.mobile.layout.HBox());
       page3.add(page3group);
 
@@ -79,7 +78,7 @@ qx.Class.define("qxl.mobileshowcase.page.Carousel",
 
       var page5 = new qx.ui.mobile.container.Composite();
       page5.addCssClass("carousel-example-5");
-      page5.add(new qx.ui.mobile.basic.Label("You can add as many pages as you want."),{flex:1});
+      page5.add(new qx.ui.mobile.basic.Label("You can add as many pages as you want."), {flex:1});
 
       var moreButton = new qx.ui.mobile.form.Button("Add more pages");
       moreButton.addCssClass("example-button");
@@ -101,14 +100,14 @@ qx.Class.define("qxl.mobileshowcase.page.Carousel",
         }
       }, carousel);
 
-      var moreGroup = new qx.ui.mobile.form.Group([moreButton],false);
+      var moreGroup = new qx.ui.mobile.form.Group([moreButton], false);
       moreGroup.setLayout(new qx.ui.mobile.layout.HBox());
 
       page5.add(moreGroup);
 
       var page6 = new qx.ui.mobile.container.Composite();
       page6.addCssClass("carousel-example-6");
-      page6.add(new qx.ui.mobile.basic.Label("Previous page is shown when you swipe right."),{flex:1});
+      page6.add(new qx.ui.mobile.basic.Label("Previous page is shown when you swipe right."), {flex:1});
 
       carousel.add(page1);
       carousel.add(page2);
