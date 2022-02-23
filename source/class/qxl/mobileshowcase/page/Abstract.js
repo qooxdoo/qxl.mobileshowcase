@@ -19,22 +19,19 @@
 /**
  * Abstract page for Mobile Showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.Abstract",
-{
-  extend : qx.ui.mobile.page.NavigationPage,
+qx.Class.define("qxl.mobileshowcase.page.Abstract", {
+  extend: qx.ui.mobile.page.NavigationPage,
 
-  construct : function(wrapContentByGroup) {
-    this.base(arguments, wrapContentByGroup);
+  construct(wrapContentByGroup) {
+    super(wrapContentByGroup);
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
   },
 
-
-  members :
-  {
-     // overridden
-    _back : function() {
+  members: {
+    // overridden
+    _back() {
       qx.core.Init.getApplication().getRouting().back();
-    }
-  }
+    },
+  },
 });

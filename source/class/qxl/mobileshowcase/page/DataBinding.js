@@ -19,64 +19,55 @@
 /**
  * Mobile page responsible for showing the "DataBinding" showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.DataBinding",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.DataBinding", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.setTitle("Data Binding");
 
     this.__timer = new qx.event.Timer(50);
     this.__timer.addListener("interval", this.__onInterval, this);
   },
 
-
   /*
   *****************************************************************************
     PROPERTIES
   *****************************************************************************
   */
-  properties :
-  {
+  properties: {
     // overridden
-    listData :
-    {
-      init : new qx.data.Array(),
-      nullable : true,
-      event : "updateListData"
-    }
+    listData: {
+      init: new qx.data.Array(),
+      nullable: true,
+      event: "updateListData",
+    },
   },
-
 
   /*
   *****************************************************************************
     EVENTS
   *****************************************************************************
   */
-  events :
-  {
+  events: {
     /** Event which occurs when the listData is updated. */
-    "updateListData" : "qx.event.type.Data"
+    updateListData: "qx.event.type.Data",
   },
 
-
-  members :
-  {
-    __increaseMode : true,
-    __decreaseButton : null,
-    __increaseButton : null,
-    __stopTimeButton : null,
-    __timer : null,
-    __form : null,
-    __list : null,
-    __dataLabel : null,
-    __slider : null,
-
+  members: {
+    __increaseMode: true,
+    __decreaseButton: null,
+    __increaseButton: null,
+    __stopTimeButton: null,
+    __timer: null,
+    __form: null,
+    __list: null,
+    __dataLabel: null,
+    __slider: null,
 
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
 
       this.__form = this.__createSliderDataBindings();
       this.__list = this.__createListDataBindings();
@@ -92,8 +83,14 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
       this.__decreaseButton.addListener("pointerdown", this.__onDecrease, this);
       root.addListener("pointerup", this.__onPointerUp, this);
 
-      this.__stopTimeButton = new qx.ui.mobile.form.Button("Take Time Snapshot");
-      this.__stopTimeButton.addListener("tap", this.__onStopTimeButtonTap, this);
+      this.__stopTimeButton = new qx.ui.mobile.form.Button(
+        "Take Time Snapshot"
+      );
+      this.__stopTimeButton.addListener(
+        "tap",
+        this.__onStopTimeButtonTap,
+        this
+      );
 
       // Slider Data Binding
       this.getContent().add(new qx.ui.mobile.form.Title("Slider"));
@@ -109,15 +106,16 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
 
       // prevent iOS8 flickering
       qx.bom.element.Style.set(
-        this.getContent().getContentElement(), "WebkitBackfaceVisibility", "hidden"
+        this.getContent().getContentElement(),
+        "WebkitBackfaceVisibility",
+        "hidden"
       );
     },
-
 
     /**
      * Reacts on tap of Stop time button.
      */
-    __onStopTimeButtonTap : function () {
+    __onStopTimeButtonTap() {
       var now = new Date();
       var date = now.toLocaleTimeString();
 
@@ -126,11 +124,10 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
       this.__list.setVisibility("visible");
     },
 
-
     /**
-      * Called on interval event of timer.
-      */
-    __onInterval : function() {
+     * Called on interval event of timer.
+     */
+    __onInterval() {
       var old = parseInt(this.__dataLabel.getValue(), 10);
       if (this.__increaseMode) {
         if (old < 500) {
@@ -139,43 +136,39 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
           this.__timer.stop();
         }
       } else if (old > 0) {
-          this.__dataLabel.setValue(old - 1);
-        } else {
-          this.__timer.stop();
-        }
+        this.__dataLabel.setValue(old - 1);
+      } else {
+        this.__timer.stop();
+      }
     },
-
 
     /**
      * Called on interval event of timer.
      */
-    __onPointerUp : function () {
+    __onPointerUp() {
       this.__timer.stop();
     },
-
 
     /**
      * Called on button increase.
      */
-    __onIncrease : function() {
+    __onIncrease() {
       this.__increaseMode = true;
       this.__timer.start();
     },
 
-
     /**
      *  Called on button decrease.
      */
-    __onDecrease : function() {
+    __onDecrease() {
       this.__increaseMode = false;
       this.__timer.start();
     },
 
-
     /**
      * Creates the slider and slider value label and binds vice-versa.
      */
-    __createSliderDataBindings : function() {
+    __createSliderDataBindings() {
       var form = new qx.ui.mobile.form.Form();
       this.__slider = new qx.ui.mobile.form.Slider();
       this.__slider.setDisplayValue("value");
@@ -193,33 +186,39 @@ qx.Class.define("qxl.mobileshowcase.page.DataBinding",
       return form;
     },
 
-
-
     /**
      * Creates a list and returns it.
      */
-    __createListDataBindings : function() {
+    __createListDataBindings() {
       var self = this;
 
       var list = new qx.ui.mobile.list.List({
-      configureItem : function(item, data, row) {
-          var stopCount = self.getListData().getLength()-row;
-          item.setTitle("Stop #"+stopCount);
+        configureItem(item, data, row) {
+          var stopCount = self.getListData().getLength() - row;
+          item.setTitle("Stop #" + stopCount);
           item.setSubtitle(data);
-        }
+        },
       });
+
       this.bind("listData", list, "model");
 
       return list;
     },
 
-
-    destruct : function() {
+    destruct() {
       this.__timer.removeListener("interval", this.__onInterval, this);
 
-      this._disposeObjects("__increaseMode", "__decreaseButton",
-        "__increaseButton", "__stopTimeButton", "__timer", "__dataLabel",
-        "__slider", "__form", "__list");
-    }
-  }
+      this._disposeObjects(
+        "__increaseMode",
+        "__decreaseButton",
+        "__increaseButton",
+        "__stopTimeButton",
+        "__timer",
+        "__dataLabel",
+        "__slider",
+        "__form",
+        "__list"
+      );
+    },
+  },
 });

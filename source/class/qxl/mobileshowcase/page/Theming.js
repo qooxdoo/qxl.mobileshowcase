@@ -28,42 +28,39 @@
  *
  * @asset(qx/mobile/css/*)
  */
-qx.Class.define("qxl.mobileshowcase.page.Theming",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.Theming", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-  construct : function() {
-    this.base(arguments, false);
+  construct() {
+    super(false);
     this.setTitle("Theming");
 
     this.__preloadThemes();
   },
 
-
-  statics :
-  {
-    THEMES: [{
-      "name": "Indigo",
-      "css": "resource/qxl/mobileshowcase/css/indigo.css"
-    }, {
-      "name": "Flat",
-      "css": "resource/qxl/mobileshowcase/css/flat.css"
-    }]
+  statics: {
+    THEMES: [
+      {
+        name: "Indigo",
+        css: "resource/qxl/mobileshowcase/css/indigo.css",
+      },
+      {
+        name: "Flat",
+        css: "resource/qxl/mobileshowcase/css/flat.css",
+      },
+    ],
   },
 
-
-  members :
-  {
-    __slider : null,
-    __demoImageLabel : null,
-    __appScale : null,
-    __fontScale : null,
-
+  members: {
+    __slider: null,
+    __demoImageLabel: null,
+    __appScale: null,
+    __fontScale: null,
 
     /**
      * Preloads all css files for preventing flickering on theme switches.
      */
-    __preloadThemes : function() {
+    __preloadThemes() {
       for (var i = 0; i < this.self(arguments).THEMES.length; i++) {
         var cssResource = this.self(arguments).THEMES[i].css;
         var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
@@ -73,10 +70,9 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       }
     },
 
-
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
 
       this.getContent().add(new qx.ui.mobile.form.Title("Select a theme"));
 
@@ -87,31 +83,34 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       // react on possible font size changes (triggering a different device pixel ratio)
       qx.event.Registration.addListener(window, "resize", this._onChangeScale);
 
-      qx.core.Init.getApplication().getRoot().addListener("changeAppScale", this._updateDemoImageLabel, this);
+      qx.core.Init.getApplication()
+        .getRoot()
+        .addListener("changeAppScale", this._updateDemoImageLabel, this);
     },
-
 
     /**
      * Check on possible scale changes.
      * @param e
      */
-    _onChangeScale : qx.module.util.Function.debounce(function(e) {
-      var root = qx.core.Init.getApplication().getRoot();
+    _onChangeScale: qx.module.util.Function.debounce(
+      function (e) {
+        var root = qx.core.Init.getApplication().getRoot();
 
-      var appScale = root.getAppScale();
-      var fontScale = root.getFontScale();
+        var appScale = root.getAppScale();
+        var fontScale = root.getFontScale();
 
-      if (appScale != this.__appScale || fontScale != this.__fontScale) {
-        this.__appScale = appScale;
-        this.__fontScale = fontScale;
+        if (appScale != this.__appScale || fontScale != this.__fontScale) {
+          this.__appScale = appScale;
+          this.__fontScale = fontScale;
 
-        root.fireEvent("changeAppScale");
-      }
-    }.bind(this), 200),
-
+          root.fireEvent("changeAppScale");
+        }
+      }.bind(this),
+      200
+    ),
 
     /** Creates the form which controls the chosen qx.Mobile theme. */
-    __createThemeChooser: function() {
+    __createThemeChooser() {
       var themeGroup = new qx.ui.mobile.form.Group([], false);
       var themeForm = new qx.ui.mobile.form.Form();
 
@@ -121,19 +120,22 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
         themeRadioGroup.add(radioButton);
         themeForm.add(radioButton, this.self(arguments).THEMES[i].name);
         radioButton.addListener("tap", this.__switchTheme, {
-          "self": this,
-          "index": i
+          self: this,
+          index: i,
         });
       }
       themeGroup.add(new qx.ui.mobile.form.renderer.Single(themeForm));
       this.getContent().add(themeGroup);
     },
 
-
     /** Creates and adds the image resolution demonstration. */
-    __createImageResolutionHandlingDemo : function() {
-      this.getContent().add(new qx.ui.mobile.form.Title("Resolution-specific Images"));
-      var demoImage = new qx.ui.mobile.basic.Image("qxl/mobileshowcase/icon/image.png");
+    __createImageResolutionHandlingDemo() {
+      this.getContent().add(
+        new qx.ui.mobile.form.Title("Resolution-specific Images")
+      );
+      var demoImage = new qx.ui.mobile.basic.Image(
+        "qxl/mobileshowcase/icon/image.png"
+      );
       demoImage.addCssClass("resolution-demo-image");
 
       this.__demoImageLabel = new qx.ui.mobile.basic.Label();
@@ -146,28 +148,33 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       this.getContent().add(demoImageGroup);
     },
 
-
-   /**
-    * Refreshes the label which displays the pixel ratio, scale factor etc.
-    */
-    _updateDemoImageLabel : function() {
-      var pixelRatio = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
+    /**
+     * Refreshes the label which displays the pixel ratio, scale factor etc.
+     */
+    _updateDemoImageLabel() {
+      var pixelRatio = parseFloat(
+        qx.bom.client.Device.getDevicePixelRatio().toFixed(2)
+      );
       var fontScale = qx.core.Init.getApplication().getRoot().getFontScale();
       var appScale = qx.core.Init.getApplication().getRoot().getAppScale();
 
-      var demoLabelTemplate = "<div>Best available image for total app scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Computed font scale:<span>%3</span></div> ";
-      var labelContent = qx.lang.String.format(demoLabelTemplate, [this.__format(appScale), this.__format(pixelRatio), this.__format(fontScale)]);
+      var demoLabelTemplate =
+        "<div>Best available image for total app scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Computed font scale:<span>%3</span></div> ";
+      var labelContent = qx.lang.String.format(demoLabelTemplate, [
+        this.__format(appScale),
+        this.__format(pixelRatio),
+        this.__format(fontScale),
+      ]);
 
       this.__demoImageLabel.setValue(labelContent);
     },
 
-
-   /**
-    * Formats a number to one or two decimals as needed.
-    * @param x {Number}
-    * @return {String} the formatted number
-    */
-    __format : function(x) {
+    /**
+     * Formats a number to one or two decimals as needed.
+     * @param x {Number}
+     * @return {String} the formatted number
+     */
+    __format(x) {
       if (x === null) {
         return "(unknown)";
       }
@@ -177,38 +184,42 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       return x;
     },
 
-
     /**
      * Creates the a control widget for the theme's scale factor.
      */
-    __createThemeScaleControl : function() {
+    __createThemeScaleControl() {
       this.getContent().add(new qx.ui.mobile.form.Title("Adjust font scale"));
 
       var form = new qx.ui.mobile.form.Form();
-      var slider = this.__slider = new qx.ui.mobile.form.Slider();
+      var slider = (this.__slider = new qx.ui.mobile.form.Slider());
       slider.set({
-        "displayValue": "value",
-        "minimum": 50,
-        "maximum": 200,
-        "value": 100,
-        "step": 10
+        displayValue: "value",
+        minimum: 50,
+        maximum: 200,
+        value: 100,
+        step: 10,
       });
+
       form.add(slider, "Custom Font Scale in %");
 
       var useScaleButton = new qx.ui.mobile.form.Button("Apply");
       useScaleButton.addListener("tap", this._onApplyScaleButtonTap, this);
       form.addButton(useScaleButton);
 
-      var scaleGroup = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.renderer.Single(form)], false);
+      var scaleGroup = new qx.ui.mobile.form.Group(
+        [new qx.ui.mobile.form.renderer.Single(form)],
+        false
+      );
       this.getContent().add(scaleGroup);
     },
 
-
     /**
-    * Handler for "tap" event on applyScaleButton. Applies the app's root font size in relation to slider value.
-    */
-    _onApplyScaleButtonTap : function() {
-      qx.core.Init.getApplication().getRoot().setFontScale(this.__slider.getValue()/100);
+     * Handler for "tap" event on applyScaleButton. Applies the app's root font size in relation to slider value.
+     */
+    _onApplyScaleButtonTap() {
+      qx.core.Init.getApplication()
+        .getRoot()
+        .setFontScale(this.__slider.getValue() / 100);
 
       this._updateDemoImageLabel();
 
@@ -216,39 +227,58 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
       this.__slider.setValue(0);
       this.__slider.setValue(lastValue);
 
-      qx.core.Init.getApplication().getRouting().executeGet("/theming", {reverse:false});
+      qx.core.Init.getApplication()
+        .getRouting()
+        .executeGet("/theming", { reverse: false });
     },
-
 
     /**
      * Changes the used CSS of the application.
      * @param cssFile {String} The css file url.
      */
-    __changeCSS : function(cssFile) {
+    __changeCSS(cssFile) {
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
       var blockerElement = blocker.getContentElement();
 
       qx.bom.element.Style.set(blockerElement, "transition", "all 500ms");
-      qx.bom.element.Style.set(blockerElement, "backgroundColor", "rgba(255,255,255,0)");
+      qx.bom.element.Style.set(
+        blockerElement,
+        "backgroundColor",
+        "rgba(255,255,255,0)"
+      );
 
       blocker.show();
 
-      qx.bom.Element.addListener(blockerElement, "transitionEnd", this._onAppFadedOut, {
-        "self": this,
-        "cssFile": cssFile
-      });
+      qx.bom.Element.addListener(
+        blockerElement,
+        "transitionEnd",
+        this._onAppFadedOut,
+        {
+          self: this,
+          cssFile: cssFile,
+        }
+      );
 
-      setTimeout(function() {
-        qx.bom.element.Style.set(blockerElement, "backgroundColor", "rgba(255,255,255,1)");
+      setTimeout(function () {
+        qx.bom.element.Style.set(
+          blockerElement,
+          "backgroundColor",
+          "rgba(255,255,255,1)"
+        );
       }, 0);
     },
 
     /**
      * Event handler when Application has faded out.
      */
-    _onAppFadedOut: function() {
+    _onAppFadedOut() {
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
-      qx.bom.Element.removeListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedOut, this);
+      qx.bom.Element.removeListener(
+        blocker.getContentElement(),
+        "transitionEnd",
+        this.self._onAppFadedOut,
+        this
+      );
 
       var root = qxWeb(".root");
       root.setStyle("color", "white");
@@ -264,48 +294,71 @@ qx.Class.define("qxl.mobileshowcase.page.Theming",
 
       root.setStyle("color", null);
 
-      setTimeout(function() {
-        qx.bom.Element.addListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedIn, this);
-        qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,0)");
-      }.bind(this), 100);
+      setTimeout(
+        function () {
+          qx.bom.Element.addListener(
+            blocker.getContentElement(),
+            "transitionEnd",
+            this.self._onAppFadedIn,
+            this
+          );
+          qx.bom.element.Style.set(
+            blocker.getContentElement(),
+            "backgroundColor",
+            "rgba(255,255,255,0)"
+          );
+        }.bind(this),
+        100
+      );
     },
-
 
     /**
      * Event handler when Application has faded in again.
      */
-    _onAppFadedIn: function() {
+    _onAppFadedIn() {
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
-      qx.bom.Element.removeListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedIn, this);
+      qx.bom.Element.removeListener(
+        blocker.getContentElement(),
+        "transitionEnd",
+        this.self._onAppFadedIn,
+        this
+      );
       qx.bom.element.Style.set(blocker.getContentElement(), "transition", null);
-      qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", null);
+      qx.bom.element.Style.set(
+        blocker.getContentElement(),
+        "backgroundColor",
+        null
+      );
       blocker.hide();
     },
-
 
     /**
      * Switches the theme of the application to the target theme.
      */
-    __switchTheme : function() {
+    __switchTheme() {
       var cssResource = this.self.self(arguments).THEMES[this.index].css;
       var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
       this.self.__changeCSS(cssURI);
     },
 
-
     /**
      * Adds a new theme data object to the theme switcher.
      * @param themeData
      */
-    appendTheme : function(themeData) {
+    appendTheme(themeData) {
       this.self(arguments).THEMES.push(themeData);
     },
 
+    destruct() {
+      qx.event.Registration.removeListener(
+        window,
+        "resize",
+        this._onChangeScale
+      );
 
-    destruct : function() {
-     qx.event.Registration.removeListener(window, "resize", this._onChangeScale);
-
-     qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._updateDemoImageLabel, this);
-    }
-  }
+      qx.core.Init.getApplication()
+        .getRoot()
+        .removeListener("changeAppScale", this._updateDemoImageLabel, this);
+    },
+  },
 });

@@ -19,54 +19,63 @@
 /**
  * Mobile page showing the "Drawer" showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.Drawer",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.Drawer", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-  construct : function() {
-    this.base(arguments, false);
+  construct() {
+    super(false);
     this.setTitle("Drawer");
   },
 
-
-  members :
-  {
+  members: {
     /**
      * Factory method for creation of drawers.
      * @param orientation
      */
-    _createDrawer : function(orientation) {
-      var drawer = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
+    _createDrawer(orientation) {
+      var drawer = new qx.ui.mobile.container.Drawer(
+        this,
+        new qx.ui.mobile.layout.VBox()
+      );
       drawer.setOrientation(orientation);
       drawer.setTapOffset(0);
       drawer.setPositionZ("below");
       return drawer;
     },
 
-
     /**
      * Factory method for the a demo drawer's content.
      * @param target
      */
-    _createDrawerContent : function(target) {
+    _createDrawerContent(target) {
       var closeDrawerButton = new qx.ui.mobile.form.Button("Close");
-      closeDrawerButton.addListener("tap", function() {
-        target.hide();
-      }, this);
+      closeDrawerButton.addListener(
+        "tap",
+        function () {
+          target.hide();
+        },
+        this
+      );
 
-      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.Label("This is the "+target.getOrientation()+" drawer."), closeDrawerButton]);
+      var drawerContent = new qx.ui.mobile.form.Group([
+        new qx.ui.mobile.form.Label(
+          "This is the " + target.getOrientation() + " drawer."
+        ),
+        closeDrawerButton,
+      ]);
       return drawerContent;
     },
-
 
     /**
      * Factory method for the a drawer menu.
      * @param drawers
      */
-    _createDrawerMenu : function(drawers) {
+    _createDrawerMenu(drawers) {
       var drawerGroup = new qx.ui.mobile.form.Group();
       for (var i = 0; i < drawers.length; i++) {
-        var openDrawerButton = new qx.ui.mobile.form.Button("Open "+drawers[i].getOrientation() +" drawer");
+        var openDrawerButton = new qx.ui.mobile.form.Button(
+          "Open " + drawers[i].getOrientation() + " drawer"
+        );
         openDrawerButton.addListener("tap", drawers[i].show, drawers[i]);
         drawerGroup.add(openDrawerButton);
       }
@@ -74,10 +83,9 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
       return drawerGroup;
     },
 
-
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
 
       // DRAWERS
 
@@ -123,7 +131,14 @@ qx.Class.define("qxl.mobileshowcase.page.Drawer",
       this.getContent().add(group);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Action"));
-      this.getContent().add(this._createDrawerMenu([drawerTop, drawerRight, drawerBottom, drawerLeft]));
-    }
-  }
+      this.getContent().add(
+        this._createDrawerMenu([
+          drawerTop,
+          drawerRight,
+          drawerBottom,
+          drawerLeft,
+        ])
+      );
+    },
+  },
 });

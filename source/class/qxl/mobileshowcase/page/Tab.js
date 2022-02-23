@@ -19,22 +19,18 @@
 /**
  * Mobile page responsible for showing the "tab" showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.Tab",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.Tab", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.setTitle("Tabs");
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
 
       var tabBar = this.__createTabBar();
 
@@ -42,19 +38,26 @@ qx.Class.define("qxl.mobileshowcase.page.Tab",
       this.addAfterNavigationBar(tabBar);
     },
 
-
     /**
      * Creates the tab bar.
      *
      * @return {qx.ui.mobile.tabbar.TabBar} created tab bar.
      */
-    __createTabBar : function() {
+    __createTabBar() {
       var tabBar = new qx.ui.mobile.tabbar.TabBar();
 
-      var view1 = this.__createView("<b>qx.Desktop</b><br/><br/>Create desktop oriented applications. Features a rich and extendable set of widgets. No HTML/CSS knowledge required.");
-      var view2 = this.__createView("<b>qx.Mobile</b><br/><br/>Create mobile apps that run on all major mobile operating systems, without writing any HTML.");
-      var view3 = this.__createView("<b>qx.Server</b><br/><br/>Use the same OOP pattern known from the client side, reuse code and generate files you can deploy in your server environment.");
-      var view4 = this.__createView("<b>qx.Website</b><br/><br/>A cross-browser DOM manipulation library to enhance websites with a rich user experience.");
+      var view1 = this.__createView(
+        "<b>qx.Desktop</b><br/><br/>Create desktop oriented applications. Features a rich and extendable set of widgets. No HTML/CSS knowledge required."
+      );
+      var view2 = this.__createView(
+        "<b>qx.Mobile</b><br/><br/>Create mobile apps that run on all major mobile operating systems, without writing any HTML."
+      );
+      var view3 = this.__createView(
+        "<b>qx.Server</b><br/><br/>Use the same OOP pattern known from the client side, reuse code and generate files you can deploy in your server environment."
+      );
+      var view4 = this.__createView(
+        "<b>qx.Website</b><br/><br/>A cross-browser DOM manipulation library to enhance websites with a rich user experience."
+      );
 
       view1.addCssClass("view1");
       view2.addCssClass("view2");
@@ -81,17 +84,16 @@ qx.Class.define("qxl.mobileshowcase.page.Tab",
       return tabBar;
     },
 
-
     /**
      * Creates the view for the tab.
      *
      * @param text {String} The text of the label used in this view.
      * @return {qx.ui.mobile.basic.Label} the created view.
      */
-    __createView : function(text) {
+    __createView(text) {
       var label = new qx.ui.mobile.basic.Label(text);
       this.getContent().add(label);
       return label;
-    }
-  }
+    },
+  },
 });

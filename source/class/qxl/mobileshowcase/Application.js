@@ -29,20 +29,17 @@
  * @require(qx.log.appender.Console)
  * @asset(qxl/mobileshowcase/*)
  */
-qx.Class.define("qxl.mobileshowcase.Application",
-{
-  extend : qx.application.Mobile,
+qx.Class.define("qxl.mobileshowcase.Application", {
+  extend: qx.application.Mobile,
 
-
-  members :
-  {
+  members: {
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
      */
-    main : function() {
+    main() {
       // Call super class
-      this.base(arguments);
+      super.main();
 
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug")) {
@@ -92,14 +89,16 @@ qx.Class.define("qxl.mobileshowcase.Application",
         dataBinding,
         maps,
         canvas,
-        theming
+        theming,
       ]);
 
       // Initialize the navigation
       var routing = this.getRouting();
 
-      if (qx.core.Environment.get("device.type") == "tablet" ||
-       qx.core.Environment.get("device.type") == "desktop") {
+      if (
+        qx.core.Environment.get("device.type") == "tablet" ||
+        qx.core.Environment.get("device.type") == "desktop"
+      ) {
         routing.onGet("/.*", this._show, overview);
         routing.onGet("/", this._show, basic);
       }
@@ -120,29 +119,32 @@ qx.Class.define("qxl.mobileshowcase.Application",
       routing.onGet("/theming", this._show, theming);
       routing.onGet("/animation", this._show, animation);
 
-      routing.onGet("/animation/{animation}", function(data) {
-        animationLanding.setAnimation(data.params.animation);
-        if (animationLanding.isVisible()) {
-          animation.show({
-            "animation": data.params.animation
-          });
-        } else {
-          animationLanding.show({
-            "animation": data.params.animation
-          });
-        }
-      }, this);
+      routing.onGet(
+        "/animation/{animation}",
+        function (data) {
+          animationLanding.setAnimation(data.params.animation);
+          if (animationLanding.isVisible()) {
+            animation.show({
+              animation: data.params.animation,
+            });
+          } else {
+            animationLanding.show({
+              animation: data.params.animation,
+            });
+          }
+        },
+        this
+      );
 
       routing.init();
     },
-
 
     /**
      * Default behaviour when a route matches. Displays the corresponding page on screen.
      * @param data {Map} the animation properties
      */
-    _show : function(data) {
+    _show(data) {
       this.show(data.customData);
-    }
-  }
+    },
+  },
 });

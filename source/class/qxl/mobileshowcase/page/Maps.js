@@ -23,27 +23,27 @@
  * @asset(qx/mobile/css/*)
  */
 /* global ol */
-qx.Class.define("qxl.mobileshowcase.page.Maps",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
-  construct : function() {
-    this.base(arguments, false);
+qx.Class.define("qxl.mobileshowcase.page.Maps", {
+  extend: qxl.mobileshowcase.page.Abstract,
+  construct() {
+    super(false);
     this.setTitle("Maps");
-    
-    qx.bom.Stylesheet.includeFile("https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css");
+
+    qx.bom.Stylesheet.includeFile(
+      "https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css"
+    );
     this._geolocationEnabled = qx.core.Environment.get("html.geolocation");
   },
-  members :
-  {
-    _mapUri : "https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js",
-    _map : null,
-    _marker : null,
-    _geolocationEnabled : false,
-    _showMyPositionButton : null,
+  members: {
+    _mapUri: "https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js",
+    _map: null,
+    _marker: null,
+    _geolocationEnabled: false,
+    _showMyPositionButton: null,
 
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
       if (this._geolocationEnabled) {
         this._initGeoLocation();
       }
@@ -52,27 +52,37 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
       // Listens on window orientation change and resize, and triggers redraw of map.
 
       // Needed for triggering OpenLayers to use a bigger area, and draw more tiles.
-      qx.event.Registration.addListener(window, "orientationchange", this._redrawMap, this);
-      qx.event.Registration.addListener(window, "resize", this._redrawMap, this);
+      qx.event.Registration.addListener(
+        window,
+        "orientationchange",
+        this._redrawMap,
+        this
+      );
+      qx.event.Registration.addListener(
+        window,
+        "resize",
+        this._redrawMap,
+        this
+      );
     },
 
     /**
      * Calls a redraw on Mapnik Layer. Needed after orientationChange event
      * and drawing markers.
      */
-    _redrawMap : function() {
+    _redrawMap() {
       if (this._map !== null) {
         this._map.updateSize();
       }
     },
-    
+
     // overridden
-    _start : function() {
-        this._redrawMap();
+    _start() {
+      this._redrawMap();
     },
 
     // overridden
-    _createScrollContainer : function() {
+    _createScrollContainer() {
       // MapContainer
       // Do not use any layout manager  - otherwise the map will not be
       // displayed with safari browsers.
@@ -83,7 +93,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     },
 
     // overridden
-    _createContent : function() {
+    _createContent() {
       // Disable menu for Windows Phone 8.
       if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
         return null;
@@ -96,7 +106,11 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
       descriptionLabel.addCssClass("osmMapLabel");
 
       // TOGGLE BUTTON
-      var toggleNavigationButton = new qx.ui.mobile.form.ToggleButton(true, "ON", "OFF");
+      var toggleNavigationButton = new qx.ui.mobile.form.ToggleButton(
+        true,
+        "ON",
+        "OFF"
+      );
 
       // SHOW MY POSITION BUTTON
       this._showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
@@ -104,13 +118,23 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
 
       // Button is disabled when Geolocation is not available.
       this._showMyPositionButton.setEnabled(this._geolocationEnabled);
-      toggleNavigationButton.addListener("changeValue", function() {
-        var newNavBarState = !this.isNavigationBarHidden();
-        this.setNavigationBarHidden(newNavBarState);
-        this.show();
-      }, this);
-      var groupPosition = new qx.ui.mobile.form.Group([this._showMyPositionButton], false);
-      var groupFullScreen = new qx.ui.mobile.form.Group([descriptionLabel, toggleNavigationButton], true);
+      toggleNavigationButton.addListener(
+        "changeValue",
+        function () {
+          var newNavBarState = !this.isNavigationBarHidden();
+          this.setNavigationBarHidden(newNavBarState);
+          this.show();
+        },
+        this
+      );
+      var groupPosition = new qx.ui.mobile.form.Group(
+        [this._showMyPositionButton],
+        false
+      );
+      var groupFullScreen = new qx.ui.mobile.form.Group(
+        [descriptionLabel, toggleNavigationButton],
+        true
+      );
       this._showMyPositionButton.addCssClass("map-shadow");
       groupFullScreen.addCssClass("map-shadow");
       menuContainer.add(groupFullScreen);
@@ -121,25 +145,25 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     /**
      * Loads JavaScript library which is needed for the map.
      */
-    _loadMapLibrary : function() {
+    _loadMapLibrary() {
       var req = new qx.bom.request.Script();
-      req.onload = function() {
+      req.onload = function () {
         var osmlayer = new ol.layer.Tile({
-          source : new ol.source.OSM()
-        });
-        var view = new ol.View(
-        {
-          zoom : 10,
-          minZoom : 2,
-          maxZoom : 19
+          source: new ol.source.OSM(),
         });
 
-        this._map = new ol.Map(
-        {
-          target : "map",
-          layers : [osmlayer],
-          view : view
+        var view = new ol.View({
+          zoom: 10,
+          minZoom: 2,
+          maxZoom: 19,
         });
+
+        this._map = new ol.Map({
+          target: "map",
+          layers: [osmlayer],
+          view: view,
+        });
+
         this._zoomToDefaultPosition();
       }.bind(this);
       req.open("GET", this._mapUri);
@@ -150,7 +174,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
      * Zooms the map to a default position.
      * In this case: Berlin, Germany.
      */
-    _zoomToDefaultPosition : function() {
+    _zoomToDefaultPosition() {
       if (this.isVisible()) {
         this._zoomToPosition(13.41, 52.52, 15);
       }
@@ -163,13 +187,16 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
      * @param zoom {Integer} zoom level.
      * @param showMarker {Boolean} if a marker should be drawn at the defined position.
      */
-    _zoomToPosition : function(longitude, latitude, zoom, showMarker) {
+    _zoomToPosition(longitude, latitude, zoom, showMarker) {
       if (!this._map) {
         return;
       }
       var fromProjection = ol.proj.get("EPSG:4326");
       var toProjection = ol.proj.get("EPSG:900913");
-      var mapPosition = ol.proj.getTransform(fromProjection, toProjection)([longitude, latitude]);
+      var mapPosition = ol.proj.getTransform(
+        fromProjection,
+        toProjection
+      )([longitude, latitude]);
       this._map.getView().setCenter(mapPosition);
       this._map.getView().setZoom(zoom);
       this._setMarkerOnMap(this._map, mapPosition, showMarker);
@@ -181,25 +208,30 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
      * @param mapPosition {Map} the map position.
      * @param showMarker {Boolean} if a marker should be drawn at the defined position.
      */
-    _setMarkerOnMap : function(map, mapPosition, showMarker) {
+    _setMarkerOnMap(map, mapPosition, showMarker) {
       if (this._marker) {
         map.removeLayer(this._marker);
         this._marker = null;
       }
       if (showMarker === true) {
         var point = new ol.Feature({
-          geometry : new ol.geom.Point(mapPosition)
+          geometry: new ol.geom.Point(mapPosition),
         });
-        point.setStyle(new ol.style.Style({
-          image : new ol.style.Icon({
-            src : "http://www.openlayers.org/api/img/marker.png"
+
+        point.setStyle(
+          new ol.style.Style({
+            image: new ol.style.Icon({
+              src: "http://www.openlayers.org/api/img/marker.png",
+            }),
           })
-        }));
+        );
+
         this._marker = new ol.layer.Vector({
-          source : new ol.source.Vector({
-            features : [point]
-          })
+          source: new ol.source.Vector({
+            features: [point],
+          }),
         });
+
         map.addLayer(this._marker);
       }
     },
@@ -207,7 +239,7 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
     /**
      * Prepares qooxdoo GeoLocation and installs needed listeners.
      */
-    _initGeoLocation : function() {
+    _initGeoLocation() {
       var geo = qx.bom.GeoLocation.getInstance();
       geo.addListener("position", this._onGeolocationSuccess, this);
       geo.addListener("error", this._onGeolocationError, this);
@@ -217,33 +249,49 @@ qx.Class.define("qxl.mobileshowcase.page.Maps",
      * Callback function when Geolocation did work.
      * @param position
      */
-    _onGeolocationSuccess : function(position) {
-      this._zoomToPosition(position.getLongitude(), position.getLatitude(), 15, true);
+    _onGeolocationSuccess(position) {
+      this._zoomToPosition(
+        position.getLongitude(),
+        position.getLatitude(),
+        15,
+        true
+      );
       this._redrawMap();
     },
 
     /**
      * Callback function when Geolocation returned an error.
      */
-    _onGeolocationError : function() {
+    _onGeolocationError() {
       this._showMyPositionButton.setEnabled(false);
       var buttons = [];
       buttons.push(qx.locale.Manager.tr("OK"));
       var title = "Problem with Geolocation";
-      var text = "Please activate location services on your browser and device.";
-      qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function() {
-      }, this, buttons);
+      var text =
+        "Please activate location services on your browser and device.";
+      qx.ui.mobile.dialog.Manager.getInstance().confirm(
+        title,
+        text,
+        function () {},
+        this,
+        buttons
+      );
     },
 
     /**
      * Retreives GeoPosition out of qx.bom.Geolocation and zooms to this point on map.
      */
-    _getGeoPosition : function() {
+    _getGeoPosition() {
       var geo = qx.bom.GeoLocation.getInstance();
       geo.getCurrentPosition(false, 1000, 1000);
     },
-    destruct : function() {
-      this._disposeObjects("_mapUri", "_map", "_marker", "_showMyPositionButton");
-    }
-  }
+    destruct() {
+      this._disposeObjects(
+        "_mapUri",
+        "_map",
+        "_marker",
+        "_showMyPositionButton"
+      );
+    },
+  },
 });

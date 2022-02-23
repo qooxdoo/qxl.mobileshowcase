@@ -19,67 +19,81 @@
 /**
  * Mobile page responsible for showing the "animation" showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.Animation",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.Animation", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.setTitle("Page Transitions");
   },
 
-
   statics: {
-    ANIMATION_DATA: [{
-      title: "Slide",
-      animation: "slide"
-    }, {
-      title: "Pop",
-      animation: "pop"
-    }, {
-      title: "Fade",
-      animation: "fade"
-    }, {
-      title: "Slide up",
-      animation: "slideup"
-    }, {
-      title: "Flip",
-      animation: "flip"
-    }, {
-      title: "Swap",
-      animation: "swap"
-    }, {
-      title: "Cube",
-      animation: "cube"
-    }]
+    ANIMATION_DATA: [
+      {
+        title: "Slide",
+        animation: "slide",
+      },
+      {
+        title: "Pop",
+        animation: "pop",
+      },
+      {
+        title: "Fade",
+        animation: "fade",
+      },
+      {
+        title: "Slide up",
+        animation: "slideup",
+      },
+      {
+        title: "Flip",
+        animation: "flip",
+      },
+      {
+        title: "Swap",
+        animation: "swap",
+      },
+      {
+        title: "Cube",
+        animation: "cube",
+      },
+    ],
   },
 
-
-  members :
-  {
+  members: {
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
 
       var list = new qx.ui.mobile.list.List({
-        configureItem : function(item, data, row) {
+        configureItem(item, data, row) {
           item.setTitle(data.title);
           item.setShowArrow(true);
-        }
+        },
       });
 
       list.addCssClass("animation-list-1");
 
-      list.setModel(new qx.data.Array(qxl.mobileshowcase.page.Animation.ANIMATION_DATA));
-      list.addListener("changeSelection", function(evt) {
-        // In Tablet Mode, animation should be shown for this showcase part.
-        // On animation landing >> setShowAnimation(false) is called.
-        this.getLayoutParent().getLayout().setShowAnimation(true);
+      list.setModel(
+        new qx.data.Array(qxl.mobileshowcase.page.Animation.ANIMATION_DATA)
+      );
+      list.addListener(
+        "changeSelection",
+        function (evt) {
+          // In Tablet Mode, animation should be shown for this showcase part.
+          // On animation landing >> setShowAnimation(false) is called.
+          this.getLayoutParent().getLayout().setShowAnimation(true);
 
-        var animation = qxl.mobileshowcase.page.Animation.ANIMATION_DATA[evt.getData()].animation;
-        qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animation);
-      }, this);
+          var animation =
+            qxl.mobileshowcase.page.Animation.ANIMATION_DATA[evt.getData()]
+              .animation;
+          qx.core.Init.getApplication()
+            .getRouting()
+            .executeGet("/animation/" + animation);
+        },
+        this
+      );
       this.getContent().add(list);
-    }
-  }
+    },
+  },
 });

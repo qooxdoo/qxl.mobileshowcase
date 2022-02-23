@@ -20,39 +20,35 @@
 /**
  * Mobile page responsible for showing the "form" showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.Form",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.Form", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-  construct : function() {
-    this.base(arguments);
+  construct() {
+    super();
     this.setTitle("Form");
   },
 
-
-  members :
-  {
-    __password : null,
-    __name : null,
-    __info : null,
-    __save : null,
-    __result : null,
-    __resultPopup : null,
-    __closeResultPopup : null,
-    __slide : null,
-    __sel : null,
-    __rememberPass : null,
-    __radio1 : null,
-    __radio2 : null,
-    __form : null,
-    __submitButton : null,
-    __resetButton : null,
-    __numberField : null,
-
+  members: {
+    __password: null,
+    __name: null,
+    __info: null,
+    __save: null,
+    __result: null,
+    __resultPopup: null,
+    __closeResultPopup: null,
+    __slide: null,
+    __sel: null,
+    __rememberPass: null,
+    __radio1: null,
+    __radio2: null,
+    __form: null,
+    __submitButton: null,
+    __resetButton: null,
+    __numberField: null,
 
     // overridden
-    _initialize : function() {
-      this.base(arguments);
+    _initialize() {
+      super._initialize();
       this.__form = this.__createForm();
 
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
@@ -68,9 +64,13 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
 
       var popupContent = new qx.ui.mobile.container.Composite();
       this.__closeResultPopup = new qx.ui.mobile.form.Button("OK");
-      this.__closeResultPopup.addListener("tap", function() {
-        this.__resultPopup.hide();
-      }, this);
+      this.__closeResultPopup.addListener(
+        "tap",
+        function () {
+          this.__resultPopup.hide();
+        },
+        this
+      );
 
       popupContent.add(this.__result);
       popupContent.add(this.__closeResultPopup);
@@ -79,40 +79,39 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
       this.__resultPopup.setTitle("Registration Result");
     },
 
-
     /**
-    * Factory for the Submit Button.
-    * @return {qx.ui.mobile.form.Button} reset button
-    */
-    _createSubmitButton : function() {
+     * Factory for the Submit Button.
+     * @return {qx.ui.mobile.form.Button} reset button
+     */
+    _createSubmitButton() {
       var submitButton = new qx.ui.mobile.form.Button("Submit");
       submitButton.addListener("tap", this._onSubmitButtonTap, this);
       submitButton.setEnabled(false);
       return submitButton;
     },
 
-
     /**
-    * Factory for the Reset Button.
-    * @return {qx.ui.mobile.form.Button} reset button
-    */
-    _createResetButton : function() {
+     * Factory for the Reset Button.
+     * @return {qx.ui.mobile.form.Button} reset button
+     */
+    _createResetButton() {
       var resetButton = new qx.ui.mobile.form.Button("Reset");
       resetButton.addListener("tap", this._onResetButtonTap, this);
       return resetButton;
     },
-
 
     /**
      * Creates the form for this showcase.
      *
      * @return {qx.ui.mobile.form.Form} the created form.
      */
-    __createForm : function() {
+    __createForm() {
       var form = new qx.ui.mobile.form.Form();
 
       // NAME FIELD
-      this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
+      this.__name = new qx.ui.mobile.form.TextField().set({
+        placeholder: "Username",
+      });
       this.__name.setRequired(true);
       this.__name.setLiveUpdate(true);
 
@@ -120,7 +119,9 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
       form.add(this.__name, "Username");
 
       // PASSWORD FIELD
-      this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
+      this.__password = new qx.ui.mobile.form.PasswordField().set({
+        placeholder: "Password",
+      });
       this.__password.setLiveUpdate(true);
       form.add(this.__password, "Password");
 
@@ -150,12 +151,19 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
       form.add(this.__radio2, "Female");
 
       form.addGroupHeader("Feedback");
-      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad", "Magazine", "Twitter", "Other"]);
+      var dd = new qx.data.Array([
+        "Web search",
+        "From a friend",
+        "Offline ad",
+        "Magazine",
+        "Twitter",
+        "Other",
+      ]);
       var selQuestion = "How did you hear about us ?";
 
       this.__sel = new qx.ui.mobile.form.SelectBox();
-      this.__sel.set({required: true});
-      this.__sel.set({placeholder:"Unknown"});
+      this.__sel.set({ required: true });
+      this.__sel.set({ placeholder: "Unknown" });
       this.__sel.setClearButtonLabel("Clear");
       this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
@@ -165,10 +173,13 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
       form.addGroupHeader("License");
       this.__info = new qx.ui.mobile.form.TextArea().set({
         placeholder: "Terms of Service",
-        readOnly: true
+        readOnly: true,
       });
+
       form.add(this.__info, "Terms of Service");
-      this.__info.setValue("qooxdoo Licensing Information\n=============================\n\nqooxdoo is licensed under the MIT License (MIT). \n The above holds for any newer qooxdoo release. Only legacy versions 5.0 and below were licensed under LGPL/EPL.");
+      this.__info.setValue(
+        "qooxdoo Licensing Information\n=============================\n\nqooxdoo is licensed under the MIT License (MIT). \n The above holds for any newer qooxdoo release. Only legacy versions 5.0 and below were licensed under LGPL/EPL."
+      );
 
       this.__slide = new qx.ui.mobile.form.Slider();
       this.__slide.setDisplayValue("percent");
@@ -186,64 +197,81 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
       return form;
     },
 
-
     /**
      * Adds all validation rules of the form.
      * @param validationManager {qx.ui.form.validation.Manager} the created form.
      */
-    _createValidationRules : function(validationManager) {
+    _createValidationRules(validationManager) {
       // USERNAME validation
-      validationManager.add(this.__name, function(value, item) {
-        var valid = value !== null && value.length>3;
-        if (!valid) {
-          item.setInvalidMessage("Username should have more than 3 characters!");
-        }
-        return valid;
-      }, this);
+      validationManager.add(
+        this.__name,
+        function (value, item) {
+          var valid = value !== null && value.length > 3;
+          if (!valid) {
+            item.setInvalidMessage(
+              "Username should have more than 3 characters!"
+            );
+          }
+          return valid;
+        },
+        this
+      );
 
       // PASSWORD validation
-      validationManager.add(this.__password, function(value, item) {
-        var valid = value !== null && value.length>3;
-        if (!valid) {
-          item.setInvalidMessage("Password should have more than 3 characters!");
-        }
-        return valid;
-      }, this);
+      validationManager.add(
+        this.__password,
+        function (value, item) {
+          var valid = value !== null && value.length > 3;
+          if (!valid) {
+            item.setInvalidMessage(
+              "Password should have more than 3 characters!"
+            );
+          }
+          return valid;
+        },
+        this
+      );
 
       // AGE validation
-      validationManager.add(this.__numberField, function(value, item) {
-        if (value === null || value == "0") {
-          item.setInvalidMessage("Please enter your age.");
-          return false;
-        }
+      validationManager.add(
+        this.__numberField,
+        function (value, item) {
+          if (value === null || value == "0") {
+            item.setInvalidMessage("Please enter your age.");
+            return false;
+          }
 
-        if (value.length == 0 || value.match(/[\D]+/)) {
-          item.setInvalidMessage("Please enter a valid age.");
-          return false;
-        }
+          if (value.length == 0 || value.match(/[\D]+/)) {
+            item.setInvalidMessage("Please enter a valid age.");
+            return false;
+          }
 
-        if (value < item.getMinimum() || value > item.getMaximum()) {
-          item.setInvalidMessage("Value out of range: "+ item.getMinimum()+"-"+item.getMaximum());
-          return false;
-        }
-        return true;
-      }, this);
+          if (value < item.getMinimum() || value > item.getMaximum()) {
+            item.setInvalidMessage(
+              "Value out of range: " +
+                item.getMinimum() +
+                "-" +
+                item.getMaximum()
+            );
+            return false;
+          }
+          return true;
+        },
+        this
+      );
     },
 
-
-    _enableFormSubmitting : function(evt) {
+    _enableFormSubmitting(evt) {
       this.__submitButton.setEnabled(evt.getData());
     },
 
-
     /**  Event handler */
-    _onResetButtonTap : function() {
+    _onResetButtonTap() {
       this.__form.reset();
     },
 
-
     /** Event handler. */
-    _onSubmitButtonTap : function() {
+    _onSubmitButtonTap() {
       if (this.__form.validate()) {
         var result = [];
         result.push("Username: " + this.__name.getValue());
@@ -253,24 +281,26 @@ qx.Class.define("qxl.mobileshowcase.page.Form",
         result.push("Female: " + this.__radio2.getValue());
         result.push("Agree on our terms: " + this.__save.getValue());
         result.push("How did you hear about us : " + this.__sel.getValue());
-        result.push("Are you human? : " + this.__slide.getValue() +"%");
+        result.push("Are you human? : " + this.__slide.getValue() + "%");
         this.__result.setValue(result.join("<br>"));
         this.__resultPopup.show();
       } else {
         // Scroll to invalid field.
         var invalidItems = this.__form.getInvalidItems();
 
-        this._getScrollContainer().scrollToWidget(invalidItems[0].getLayoutParent(), 500);
+        this._getScrollContainer().scrollToWidget(
+          invalidItems[0].getLayoutParent(),
+          500
+        );
       }
     },
 
-
     // overridden
-    _stop : function() {
+    _stop() {
       if (this.__resultPopup) {
         this.__resultPopup.hide();
       }
-      this.base(arguments);
-    }
-  }
+      super._stop();
+    },
+  },
 });

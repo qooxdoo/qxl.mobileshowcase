@@ -17,75 +17,79 @@
 
 ************************************************************************ */
 
-
 /**
  * Mobile page responsible for showing the landing page for the "animation" showcase.
  */
-qx.Class.define("qxl.mobileshowcase.page.AnimationLanding",
-{
-  extend : qxl.mobileshowcase.page.Abstract,
+qx.Class.define("qxl.mobileshowcase.page.AnimationLanding", {
+  extend: qxl.mobileshowcase.page.Abstract,
 
-  construct : function() {
-    this.base(arguments, true);
+  construct() {
+    super(true);
     this.setTitle("Page Transitions");
     this.setShowBackButtonOnTablet(true);
   },
 
-  properties :
-  {
+  properties: {
     /**
      * The current animaton.
      */
-    animation :
-    {
-      check : "String",
-      init : ""
-    }
+    animation: {
+      check: "String",
+      init: "",
+    },
   },
 
-  members :
-  {
+  members: {
     // overridden
-    _initialize : function() {
-      this.base(arguments);
-
+    _initialize() {
+      super._initialize();
 
       if (this._isTablet) {
         this.addListener("disappear", this.__deactiveAnimation, this);
       }
 
       var list = new qx.ui.mobile.list.List({
-        configureItem: function(item, data, row) {
+        configureItem(item, data, row) {
           item.setTitle(data.title);
           item.setShowArrow(true);
-        }
+        },
       });
+
       list.addCssClass("animation-list-2");
 
       var animationData = qxl.mobileshowcase.page.Animation.ANIMATION_DATA;
 
       list.setModel(new qx.data.Array(animationData));
-      list.addListener("changeSelection", function(evt) {
-        // In Tablet Mode, animation should be shown for this showcase part.
-        // On animation landing >> setShowAnimation(false) is called.
-        this.getLayoutParent().getLayout().setShowAnimation(true);
-        qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animationData[evt.getData()].animation);
-      }, this);
+      list.addListener(
+        "changeSelection",
+        function (evt) {
+          // In Tablet Mode, animation should be shown for this showcase part.
+          // On animation landing >> setShowAnimation(false) is called.
+          this.getLayoutParent().getLayout().setShowAnimation(true);
+          qx.core.Init.getApplication()
+            .getRouting()
+            .executeGet("/animation/" + animationData[evt.getData()].animation);
+        },
+        this
+      );
       this.getContent().add(list);
     },
-
 
     /**
      * Deactivates the animation on parentContainer's layout.
      */
-    __deactiveAnimation : function() {
+    __deactiveAnimation() {
       this.getLayoutParent().getLayout().setShowAnimation(false);
     },
 
-
     // overridden
-    _back : function() {
-      qx.core.Init.getApplication().getRouting().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
-    }
-  }
+    _back() {
+      qx.core.Init.getApplication()
+        .getRouting()
+        .executeGet("/animation", {
+          animation: this.getAnimation(),
+          reverse: true,
+        });
+    },
+  },
 });
