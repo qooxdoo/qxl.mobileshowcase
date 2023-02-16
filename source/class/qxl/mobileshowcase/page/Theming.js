@@ -336,7 +336,7 @@ qx.Class.define("qxl.mobileshowcase.page.Theming", {
      * Switches the theme of the application to the target theme.
      */
     __switchTheme() {
-      var cssResource = this.self.self(arguments).THEMES[this.index].css;
+      var cssResource = this.self(arguments).THEMES[this.index].css;
       var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
       this.self.__changeCSS(cssURI);
     },
